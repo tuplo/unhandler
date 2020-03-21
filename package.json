@@ -2,7 +2,7 @@
   "name": "@tuplo/unhandler",
   "description": "Creates bug reports for uncaught exceptions and unhandled rejections",
   "version": "0.0.0-development",
-  "repository": "git@github.com:tuplo/envsubst.git",
+  "repository": "git@github.com:tuplo/unhandler.git",
   "author": "Tuplo <dev@tuplo.co.uk>",
   "license": "MIT",
   "keywords": [
