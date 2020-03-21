@@ -1,0 +1,55 @@
+[
+  {
+    "url": "https://api.github.com/repos/ruicosta042/fc-agent/issues/16",
+    "repository_url": "https://api.github.com/repos/ruicosta042/fc-agent",
+    "labels_url": "https://api.github.com/repos/ruicosta042/fc-agent/issues/16/labels{/name}",
+    "comments_url": "https://api.github.com/repos/ruicosta042/fc-agent/issues/16/comments",
+    "events_url": "https://api.github.com/repos/ruicosta042/fc-agent/issues/16/events",
+    "html_url": "https://github.com/ruicosta042/fc-agent/issues/16",
+    "id": 524659464,
+    "node_id": "MDU6SXNzdWU1MjQ2NTk0NjQ=",
+    "number": 16,
+    "title": "[the-castle] uncaughtException",
+    "user": {
+      "login": "ruicosta042",
+      "id": 8294038,
+      "node_id": "MDQ6VXNlcjgyOTQwMzg=",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8294038?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ruicosta042",
+      "html_url": "https://github.com/ruicosta042",
+      "followers_url": "https://api.github.com/users/ruicosta042/followers",
+      "following_url": "https://api.github.com/users/ruicosta042/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ruicosta042/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ruicosta042/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ruicosta042/subscriptions",
+      "organizations_url": "https://api.github.com/users/ruicosta042/orgs",
+      "repos_url": "https://api.github.com/users/ruicosta042/repos",
+      "events_url": "https://api.github.com/users/ruicosta042/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ruicosta042/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+      {
+        "id": 1224626362,
+        "node_id": "MDU6TGFiZWwxMjI0NjI2MzYy",
+        "url": "https://api.github.com/repos/ruicosta042/fc-agent/labels/bug",
+        "name": "bug",
+        "color": "d73a4a",
+        "default": true
+      }
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2019-11-18T22:34:07Z",
+    "updated_at": "2019-11-18T22:34:08Z",
+    "closed_at": null,
+    "author_association": "OWNER",
+    "body": "```\nReferenceError: foo is not defined\n    at Object.<anonymous> (/Users/ruic/code/fc/fc-agent/src/_lib/unhandler/index.js:8:1)\n    at Module._compile (internal/modules/cjs/loader.js:1063:30)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1103:10)\n    at Module.load (internal/modules/cjs/loader.js:914:32)\n    at Function.Module._load (internal/modules/cjs/loader.js:822:14)\n    at Function.Module.runMain (internal/modules/cjs/loader.js:1143:12)\n    at internal/main/run_main_module.js:16:11\n```"
+  }
+]
