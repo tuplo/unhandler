@@ -19,7 +19,7 @@ $ yarn add @tuplo/unhandler
 ## Usage
 
 ```ts
-import unhandler from '@tuplo/unhandler';
+import { unhandler } from '@tuplo/unhandler';
 ```
 
 **Registers event handlers for `uncaughtException` and `unhandledRejection`**

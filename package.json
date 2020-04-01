@@ -3,7 +3,7 @@
   "description": "Creates bug reports for uncaught exceptions and unhandled rejections",
   "version": "0.0.0-development",
   "repository": "git@github.com:tuplo/unhandler.git",
-  "author": "Tuplo <dev@tuplo.co.uk>",
+  "author": "Rui Costa",
   "license": "MIT",
   "keywords": [
     "error handling",
@@ -14,6 +14,7 @@
     "lib/**/*"
   ],
   "main": "lib/index.js",
+  "source": "src/index.ts",
   "types": "lib/index.d.ts",
   "dependencies": {
     "node-fetch": "^2.6.0"
@@ -34,12 +35,13 @@
     "eslint-plugin-jest": "23.8.2",
     "husky": "4.2.3",
     "jest": "25.2.4",
+    "microbundle": "0.12.0-next.8",
     "prettier": "2.0.2",
     "ts-jest": "25.3.0",
     "typescript": "3.8.3"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "microbundle --sourcemap false --compress false",
     "lint": "eslint 'src/**'",
     "test:watch": "jest --watch",
     "test": "jest"

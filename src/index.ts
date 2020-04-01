@@ -45,12 +45,10 @@ export const uncaughtHandlerFn: UncaughtHandlerFn = (options) => (
 ): Promise<Response | null> => submitError(error, options);
 
 type UnhandlerFn = (options: UnhandlerOptions) => void;
-const unhandler: UnhandlerFn = (options: UnhandlerOptions) => {
+export const unhandler: UnhandlerFn = (options: UnhandlerOptions) => {
   const uncaughtHandler = uncaughtHandlerFn(options);
   process.on(`uncaughtException`, uncaughtHandler);
   process.on(`unhandledRejection`, (reason) => {
     throw reason;
   });
 };
-
-export default unhandler;
