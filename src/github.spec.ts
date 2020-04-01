@@ -88,8 +88,8 @@ ReferenceError: foo is not defined
     ];
     const expected = [true, false, false];
     const result = await Promise.all(
-      issues.map(issue =>
-        findIssue(i => i.title === issue.title, {
+      issues.map((issue) =>
+        findIssue((i) => i.title === issue.title, {
           user: `foo`,
           repo: `bar`,
           token: `secret`,

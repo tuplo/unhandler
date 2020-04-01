@@ -54,18 +54,18 @@ const client: ClientFn = async (url, options, githubOptions) => {
   };
 
   const githubUrl = buildUrl(url, githubOptions);
-  return fetch(githubUrl, opts).catch(err => {
+  return fetch(githubUrl, opts).catch((err) => {
     console.error(`[github] ${err.message}`);
     return null;
   });
 };
 
 type ListIssuesFn = (githubOptions: GitHubOptions) => Promise<GithubIssue[]>;
-export const listIssues: ListIssuesFn = async githubOptions => {
+export const listIssues: ListIssuesFn = async (githubOptions) => {
   const url = `/repos/:owner/:repo/issues`;
   return client(url, { method: `get` }, githubOptions)
-    .then(res => res && res.json())
-    .catch(err => {
+    .then((res) => res && res.json())
+    .catch((err) => {
       console.error(`[github] ${err.message}`);
       return null;
     });
@@ -87,7 +87,10 @@ type CreateIssueFn = (
   options: GitHubOptions
 ) => Promise<null | Response>;
 export const createIssue: CreateIssueFn = async (issue, options) => {
-  const existingIssue = await findIssue(i => i.title === issue.title, options);
+  const existingIssue = await findIssue(
+    (i) => i.title === issue.title,
+    options
+  );
   if (existingIssue) return null;
   const url = `/repos/:owner/:repo/issues`;
   return client(

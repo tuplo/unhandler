@@ -40,7 +40,7 @@ export const submitError: SubmitErrorFn = async (error, options) => {
 type UncaughtHandlerFn = (
   options: UnhandlerOptions
 ) => (error: Error) => Promise<Response | null>;
-export const uncaughtHandlerFn: UncaughtHandlerFn = options => (
+export const uncaughtHandlerFn: UncaughtHandlerFn = (options) => (
   error: UnhandlerError
 ): Promise<Response | null> => submitError(error, options);
 
@@ -48,7 +48,7 @@ type UnhandlerFn = (options: UnhandlerOptions) => void;
 const unhandler: UnhandlerFn = (options: UnhandlerOptions) => {
   const uncaughtHandler = uncaughtHandlerFn(options);
   process.on(`uncaughtException`, uncaughtHandler);
-  process.on(`unhandledRejection`, reason => {
+  process.on(`unhandledRejection`, (reason) => {
     throw reason;
   });
 };
