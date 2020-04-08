@@ -5,7 +5,7 @@
   <img src="https://david-dm.org/tuplo/unhandler.svg">
 </p>
 
-Creates bug reports for uncaught exceptions and unhandled rejections. Works like a DYI Sentry client. Can publish bug reports on different trackers simultaneously.
+Creates bug reports for uncaught exceptions and unhandled rejections. Works like a DYI Sentry client for NodeJS. Can publish bug reports on different trackers simultaneously. Not suited to be used on browsers as it would need to expose your APIs' access secrets to the public.
 
 ## Install
 
