@@ -20,9 +20,9 @@ type BuildUrlFn = (template: string, githubOptions: GitHubOptions) => string;
 export const buildUrl: BuildUrlFn = (template, githubOptions) => {
   const { user, repo } = githubOptions;
   return [
-    `https://api.github.com`,
+    'https://api.github.com',
     template.replace(/:owner/, user).replace(/:repo/, repo),
-  ].join(``);
+  ].join('');
 };
 
 type ClientFn = (
@@ -34,10 +34,10 @@ const client: ClientFn = async (url, options, githubOptions) => {
   const { user, token } = githubOptions;
   const defaultOptions = {
     agent: new Agent({
-      rejectUnauthorized: process.env.NODE_ENV !== `test`,
+      rejectUnauthorized: process.env.NODE_ENV !== 'test',
     }),
     headers: {
-      Accept: `application/vnd.github.v3+json`,
+      Accept: 'application/vnd.github.v3+json',
       Authorization: `token ${token}`,
       'User-Agent': user,
     },
@@ -62,7 +62,7 @@ const client: ClientFn = async (url, options, githubOptions) => {
 
 type ListIssuesFn = (githubOptions: GitHubOptions) => Promise<GithubIssue[]>;
 export const listIssues: ListIssuesFn = async (githubOptions) => {
-  const url = `/repos/:owner/:repo/issues`;
+  const url = '/repos/:owner/:repo/issues';
   return client(url, { method: `get` }, githubOptions)
     .then((res) => res && res.json())
     .catch((err) => {
@@ -92,11 +92,11 @@ export const createIssue: CreateIssueFn = async (issue, options) => {
     options
   );
   if (existingIssue) return null;
-  const url = `/repos/:owner/:repo/issues`;
+  const url = '/repos/:owner/:repo/issues';
   return client(
     url,
     {
-      method: `post`,
+      method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(issue),
     },

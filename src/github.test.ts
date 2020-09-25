@@ -1,13 +1,14 @@
 /* eslint import/no-extraneous-dependencies:off */
 import fetch from 'node-fetch';
 import { mocked } from 'ts-jest/utils';
+
 import { createIssue, findIssue, listIssues } from './github';
 import githubIssuesList from './__data__/github-list-issues.json';
 
 jest.mock('node-fetch');
 
 describe(`unhandler`, () => {
-  it(`creates an issue`, async () => {
+  it('creates an issue', async () => {
     expect.assertions(2);
     const fetchSpy = jest.fn().mockReturnValue(
       Promise.resolve({
@@ -33,7 +34,7 @@ ReferenceError: foo is not defined
 \`\`\``,
       labels: ['bug'],
     };
-    await createIssue(issue, { user: `foo`, repo: `bar`, token: `secret` });
+    await createIssue(issue, { user: 'foo', repo: 'bar', token: 'secret' });
 
     expect(fetchSpy).toHaveBeenCalledTimes(2);
     const [, request] = fetchSpy.mock.calls;
@@ -42,7 +43,7 @@ ReferenceError: foo is not defined
     fetchSpy.mockRestore();
   });
 
-  it(`lists issues`, async () => {
+  it('lists issues', async () => {
     expect.assertions(3);
     const fetchSpy = jest.fn().mockImplementation(() =>
       Promise.resolve({
@@ -54,14 +55,14 @@ ReferenceError: foo is not defined
     mockedFetch.mockImplementation(fetchSpy);
 
     const result = await listIssues({
-      user: `foo`,
-      repo: `bar`,
-      token: `secret`,
+      user: 'foo',
+      repo: 'bar',
+      token: 'secret',
     });
     const expectedIssue = {
       url: 'https://api.github.com/repos/ruicosta042/fc-agent/issues/16',
       title: '[the-castle] uncaughtException',
-      labels: [{ name: `bug` }],
+      labels: [{ name: 'bug' }],
     };
     expect(Array.isArray(result)).toBe(true);
     expect(result).toHaveLength(1);
@@ -70,7 +71,7 @@ ReferenceError: foo is not defined
     fetchSpy.mockRestore();
   });
 
-  it(`finds issues given a finder function`, async () => {
+  it('finds issues given a finder function', async () => {
     expect.assertions(1);
     const fetchSpy = jest.fn().mockReturnValue(
       Promise.resolve({
@@ -82,17 +83,17 @@ ReferenceError: foo is not defined
     mockFetch.mockImplementation(fetchSpy);
 
     const issues = [
-      { title: `[the-castle] uncaughtException` },
-      { title: `[the-castle] connect ECONNREFUSED 127.0.0.1:8888` },
-      { title: `foo` },
+      { title: '[the-castle] uncaughtException' },
+      { title: '[the-castle] connect ECONNREFUSED 127.0.0.1:8888' },
+      { title: 'foo' },
     ];
     const expected = [true, false, false];
     const result = await Promise.all(
       issues.map((issue) =>
         findIssue((i) => i.title === issue.title, {
-          user: `foo`,
-          repo: `bar`,
-          token: `secret`,
+          user: 'foo',
+          repo: 'bar',
+          token: 'secret',
         })
       )
     );
@@ -101,7 +102,7 @@ ReferenceError: foo is not defined
     fetchSpy.mockRestore();
   });
 
-  it(`doesn't create an issue if already created`, async () => {
+  it("doesn't create an issue if already created", async () => {
     expect.assertions(1);
     const fetchSpy = jest.fn().mockReturnValue(
       Promise.resolve({
@@ -113,14 +114,14 @@ ReferenceError: foo is not defined
     mockFetch.mockImplementation(fetchSpy);
 
     const issue = {
-      title: `[the-castle] uncaughtException`,
+      title: '[the-castle] uncaughtException',
       labels: [],
-      body: `fooo`,
+      body: 'fooo',
     };
     const result = await createIssue(issue, {
-      user: `foo`,
-      repo: `bar`,
-      token: `secret`,
+      user: 'foo',
+      repo: 'bar',
+      token: 'secret',
     });
     expect(result).toBeNull();
 

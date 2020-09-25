@@ -8,7 +8,7 @@
     "module": "ES6",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "outDir": "./lib",
+    "outDir": "./dist",
     "target": "es6",
     "strict": true
   },

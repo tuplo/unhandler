@@ -20,16 +20,16 @@ export const submitError: SubmitErrorFn = async (error, options) => {
   const { appName, providers } = options;
   let tracker;
   let trackerOptions;
-  if (`github` in providers) {
+  if ('github' in providers) {
     tracker = github;
     trackerOptions = providers.github as github.GitHubOptions;
   }
   if (!tracker || !trackerOptions) return null;
 
-  const { labels = [`bug`] } = trackerOptions || {};
+  const { labels = ['bug'] } = trackerOptions || {};
   return tracker.createIssue(
     {
-      title: [appName && `[${appName}]`, error.message].join(` `),
+      title: [appName && `[${appName}]`, error.message].join(' '),
       labels,
       body: `\`\`\`\n${error.body || error.stack}\n\`\`\``,
     },
@@ -47,8 +47,8 @@ export const uncaughtHandlerFn: UncaughtHandlerFn = (options) => (
 type UnhandlerFn = (options: UnhandlerOptions) => void;
 export const unhandler: UnhandlerFn = (options: UnhandlerOptions) => {
   const uncaughtHandler = uncaughtHandlerFn(options);
-  process.on(`uncaughtException`, uncaughtHandler);
-  process.on(`unhandledRejection`, (reason) => {
+  process.on('uncaughtException', uncaughtHandler);
+  process.on('unhandledRejection', (reason) => {
     throw reason;
   });
 };
