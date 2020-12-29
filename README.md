@@ -1,8 +1,8 @@
 # unhandler
 
 <p>
+  <img src="https://img.shields.io/npm/v/@tuplo/unhandler">
   <img src="https://packagephobia.now.sh/badge?p=@tuplo/unhandler">
-  <img src="https://david-dm.org/tuplo/unhandler.svg">
 </p>
 
 Creates bug reports for uncaught exceptions and unhandled rejections. Works like a DYI Sentry client for NodeJS. Can publish bug reports on different trackers simultaneously. Not suited to be used on browsers as it would need to expose your APIs' access secrets to the public.
