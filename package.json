@@ -12,7 +12,8 @@
   ],
   "files": [
     "dist/index.js",
-    "dist/index.d.ts"
+    "dist/index.d.ts",
+    "dist/github.d.ts"
   ],
   "engines": {
     "node": ">=12"
