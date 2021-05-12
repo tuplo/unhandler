@@ -2,4 +2,4 @@
 
 rimraf dist
 tsc --build tsconfig.build.json
-esbuild src/index.ts --bundle --format=esm --outfile=dist/index.js --external=node-fetch --external:https
+esbuild src/index.ts --bundle --format=esm --outfile=dist/index.js --external:node-fetch --external:https
