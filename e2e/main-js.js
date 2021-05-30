@@ -10,3 +10,5 @@ unhandler({
     },
   },
 });
+
+export const testUnhandler = unhandler;

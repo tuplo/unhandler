@@ -56,7 +56,7 @@
   "scripts": {
     "build": "bash scripts/build.sh",
     "ci:test": "jest --ci",
-    "lint": "eslint src/**/*.ts",
+    "lint": "eslint src --ext ts",
     "test": "jest --watch",
     "ts-check": "tsc --noEmit"
   },
