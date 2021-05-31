@@ -2,6 +2,12 @@
 
 <p>
   <img src="https://img.shields.io/npm/v/@tuplo/unhandler">
+  <a href="https://codeclimate.com/github/tuplo/unhandler/maintainability">
+    <img src="https://api.codeclimate.com/v1/badges/b460b35ffc1d540fb7d9/maintainability" />
+  </a>
+  <a href="https://codeclimate.com/github/tuplo/unhandler/test_coverage">
+    <img src="https://api.codeclimate.com/v1/badges/b460b35ffc1d540fb7d9/test_coverage" />
+  </a>
   <img src="https://packagephobia.now.sh/badge?p=@tuplo/unhandler">
 </p>
 
