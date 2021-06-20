@@ -1,5 +1,5 @@
-import { submitError, uncaughtHandlerFn } from '.';
 import * as github from './github';
+import { submitError, uncaughtHandlerFn } from '.';
 
 describe('unhandler', () => {
   const githubCreateIssueSpy = jest
@@ -16,6 +16,7 @@ describe('unhandler', () => {
 
   it('submits an error', async () => {
     expect.assertions(2);
+
     const error = new Error('foo');
     await submitError(error, {
       appName: 'app-name',
@@ -23,6 +24,7 @@ describe('unhandler', () => {
         github: { user: 'foo', repo: 'bar', token: 'secret-token' },
       },
     });
+
     const expected = {
       title: '[app-name] foo',
       labels: ['bug'],
@@ -34,6 +36,7 @@ describe('unhandler', () => {
 
   it('handles an exception - github', () => {
     expect.assertions(2);
+
     const error = new Error('foo');
     const uncaughtHandler = uncaughtHandlerFn({
       appName: 'app-name',
@@ -42,6 +45,7 @@ describe('unhandler', () => {
       },
     });
     uncaughtHandler(error);
+
     expect(githubCreateIssueSpy).toHaveBeenCalledTimes(1);
     const [payload] = githubCreateIssueSpy.mock.calls[0];
     expect(payload).toMatchObject({
@@ -68,6 +72,7 @@ describe('unhandler', () => {
       },
     });
     uncaughtHandler(error);
+
     expect(githubCreateIssueSpy).toHaveBeenCalledTimes(1);
     const [payload] = githubCreateIssueSpy.mock.calls[0];
     expect(payload).toMatchObject({

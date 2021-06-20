@@ -1,4 +1,4 @@
-import { Response } from 'node-fetch';
+import type { Response } from 'node-fetch';
 import * as github from './github';
 
 type UnhandlerError = Error & { body?: unknown };
@@ -12,11 +12,10 @@ type UnhandlerOptions = {
   providers: Providers;
 };
 
-type SubmitErrorFn = (
+export async function submitError(
   error: UnhandlerError,
   options: UnhandlerOptions
-) => Promise<Response | null>;
-export const submitError: SubmitErrorFn = async (error, options) => {
+): Promise<Response | null> {
   const { appName, providers } = options;
   let tracker;
   let trackerOptions;
@@ -27,6 +26,7 @@ export const submitError: SubmitErrorFn = async (error, options) => {
   if (!tracker || !trackerOptions) return null;
 
   const { labels = ['bug'] } = trackerOptions || {};
+
   return tracker.createIssue(
     {
       title: [appName && `[${appName}]`, error.message].join(' '),
@@ -35,20 +35,20 @@ export const submitError: SubmitErrorFn = async (error, options) => {
     },
     trackerOptions
   );
-};
+}
 
 type UncaughtHandlerFn = (
   options: UnhandlerOptions
 ) => (error: Error) => Promise<Response | null>;
-export const uncaughtHandlerFn: UncaughtHandlerFn = (options) => (
-  error: UnhandlerError
-): Promise<Response | null> => submitError(error, options);
+export const uncaughtHandlerFn: UncaughtHandlerFn =
+  (options) =>
+  (error: UnhandlerError): Promise<Response | null> =>
+    submitError(error, options);
 
-type UnhandlerFn = (options: UnhandlerOptions) => void;
-export const unhandler: UnhandlerFn = (options: UnhandlerOptions) => {
+export function unhandler(options: UnhandlerOptions): void {
   const uncaughtHandler = uncaughtHandlerFn(options);
   process.on('uncaughtException', uncaughtHandler);
   process.on('unhandledRejection', (reason) => {
     throw reason;
   });
-};
+}

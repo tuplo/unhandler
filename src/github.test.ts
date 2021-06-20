@@ -7,9 +7,10 @@ import githubIssuesList from './__data__/github-list-issues.json';
 
 jest.mock('node-fetch');
 
-describe(`unhandler`, () => {
+describe('unhandler', () => {
   it('creates an issue', async () => {
     expect.assertions(2);
+
     const fetchSpy = jest.fn().mockReturnValue(
       Promise.resolve({
         status: 200,
@@ -45,6 +46,7 @@ ReferenceError: foo is not defined
 
   it('lists issues', async () => {
     expect.assertions(3);
+
     const fetchSpy = jest.fn().mockImplementation(() =>
       Promise.resolve({
         status: 200,
@@ -73,6 +75,7 @@ ReferenceError: foo is not defined
 
   it('finds issues given a finder function', async () => {
     expect.assertions(1);
+
     const fetchSpy = jest.fn().mockReturnValue(
       Promise.resolve({
         status: 200,
@@ -104,6 +107,7 @@ ReferenceError: foo is not defined
 
   it("doesn't create an issue if already created", async () => {
     expect.assertions(1);
+
     const fetchSpy = jest.fn().mockReturnValue(
       Promise.resolve({
         status: 200,

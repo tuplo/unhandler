@@ -1,6 +1,7 @@
 /* eslint no-console:off */
 import { Agent } from 'https';
-import fetch, { RequestInit, Response } from 'node-fetch';
+import fetch from 'node-fetch';
+import type { RequestInit, Response } from 'node-fetch';
 
 type GithubIssue = {
   id?: number;
@@ -16,21 +17,23 @@ export type GitHubOptions = {
   labels?: string[];
 };
 
-type BuildUrlFn = (template: string, githubOptions: GitHubOptions) => string;
-export const buildUrl: BuildUrlFn = (template, githubOptions) => {
+export function buildUrl(
+  template: string,
+  githubOptions: GitHubOptions
+): string {
   const { user, repo } = githubOptions;
+
   return [
     'https://api.github.com',
     template.replace(/:owner/, user).replace(/:repo/, repo),
   ].join('');
-};
+}
 
-type ClientFn = (
+async function client(
   url: string,
   options: RequestInit,
   githubOptions: GitHubOptions
-) => Promise<Response | null>;
-const client: ClientFn = async (url, options, githubOptions) => {
+): Promise<Response | null> {
   const { user, token } = githubOptions;
   const defaultOptions = {
     agent: new Agent({
@@ -54,45 +57,48 @@ const client: ClientFn = async (url, options, githubOptions) => {
   };
 
   const githubUrl = buildUrl(url, githubOptions);
+
   return fetch(githubUrl, opts).catch((err) => {
     console.error(`[github] ${err.message}`);
     return null;
   });
-};
+}
 
-type ListIssuesFn = (githubOptions: GitHubOptions) => Promise<GithubIssue[]>;
-export const listIssues: ListIssuesFn = async (githubOptions) => {
+export async function listIssues(
+  githubOptions: GitHubOptions
+): Promise<GithubIssue[]> {
   const url = '/repos/:owner/:repo/issues';
+
   return client(url, { method: `get` }, githubOptions)
     .then((res) => res && res.json())
     .catch((err) => {
       console.error(`[github] ${err.message}`);
       return null;
     });
-};
+}
 
 type FinderFn = (issue: GithubIssue) => boolean;
-type FindIssueFn = (
+export async function findIssue(
   finder: FinderFn,
   options: GitHubOptions
-) => Promise<GithubIssue | null>;
-export const findIssue: FindIssueFn = async (finder, options) => {
+): Promise<GithubIssue | null> {
   const issues = await listIssues(options);
   if (issues === null) return null;
-  return issues.find(finder) || null;
-};
 
-type CreateIssueFn = (
+  return issues.find(finder) || null;
+}
+
+export async function createIssue(
   issue: GithubIssue,
   options: GitHubOptions
-) => Promise<null | Response>;
-export const createIssue: CreateIssueFn = async (issue, options) => {
+): Promise<Response | null> {
   const existingIssue = await findIssue(
     (i) => i.title === issue.title,
     options
   );
   if (existingIssue) return null;
   const url = '/repos/:owner/:repo/issues';
+
   return client(
     url,
     {
@@ -102,4 +108,4 @@ export const createIssue: CreateIssueFn = async (issue, options) => {
     },
     options
   );
-};
+}
