@@ -21,7 +21,7 @@ describe('unhandler', () => {
     await submitError(error, {
       appName: 'app-name',
       providers: {
-        github: { user: 'foo', repo: 'bar', token: 'secret-token' },
+        github: { user: 'foo', repo: 'foo/bar', token: 'secret-token' },
       },
     });
 
@@ -41,7 +41,7 @@ describe('unhandler', () => {
     const uncaughtHandler = uncaughtHandlerFn({
       appName: 'app-name',
       providers: {
-        github: { user: 'foo', repo: 'bar', token: 'secret' },
+        github: { user: 'foo', repo: 'foo/bar', token: 'secret' },
       },
     });
     uncaughtHandler(error);
@@ -68,7 +68,7 @@ describe('unhandler', () => {
     const uncaughtHandler = uncaughtHandlerFn({
       appName: 'app-name',
       providers: {
-        github: { user: 'foo', repo: 'bar', token: 'secret' },
+        github: { user: 'foo', repo: 'foo/bar', token: 'secret' },
       },
     });
     uncaughtHandler(error);

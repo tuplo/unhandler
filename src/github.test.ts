@@ -2,12 +2,31 @@
 import fetch from 'node-fetch';
 import { mocked } from 'ts-jest/utils';
 
-import { createIssue, findIssue, listIssues } from './github';
+import { buildUrl, createIssue, findIssue, listIssues } from './github';
 import githubIssuesList from './__data__/github-list-issues.json';
 
 jest.mock('node-fetch');
 
 describe('unhandler', () => {
+  it.each([
+    [
+      { user: 'john_doe', repo: 'kill-switch' },
+      'https://api.github.com/repos/john_doe/kill-switch/issues',
+    ],
+    [
+      { user: 'john_doe', repo: 'sentient/kill-switch' },
+      'https://api.github.com/repos/sentient/kill-switch/issues',
+    ],
+  ])("builds the repo's url", (options, expected) => {
+    expect.assertions(1);
+
+    const result = buildUrl('/repos/:repo/issues', {
+      token: 'secret',
+      ...options,
+    });
+
+    expect(result).toBe(expected);
+  });
   it('creates an issue', async () => {
     expect.assertions(2);
 
@@ -61,6 +80,7 @@ ReferenceError: foo is not defined
       repo: 'bar',
       token: 'secret',
     });
+
     const expectedIssue = {
       url: 'https://api.github.com/repos/ruicosta042/fc-agent/issues/16',
       title: '[the-castle] uncaughtException',

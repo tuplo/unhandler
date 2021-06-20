@@ -21,12 +21,10 @@ export function buildUrl(
   template: string,
   githubOptions: GitHubOptions
 ): string {
-  const { user, repo } = githubOptions;
+  const { user, repo: repoName } = githubOptions;
+  const repo = !/\//.test(repoName) ? `${user}/${repoName}` : repoName;
 
-  return [
-    'https://api.github.com',
-    template.replace(/:owner/, user).replace(/:repo/, repo),
-  ].join('');
+  return ['https://api.github.com', template.replace(/:repo/, repo)].join('');
 }
 
 async function client(
@@ -67,9 +65,9 @@ async function client(
 export async function listIssues(
   githubOptions: GitHubOptions
 ): Promise<GithubIssue[]> {
-  const url = '/repos/:owner/:repo/issues';
+  const url = '/repos/:repo/issues';
 
-  return client(url, { method: `get` }, githubOptions)
+  return client(url, { method: 'get' }, githubOptions)
     .then((res) => res && res.json())
     .catch((err) => {
       console.error(`[github] ${err.message}`);
