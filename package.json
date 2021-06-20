@@ -16,16 +16,16 @@
     "dist/index.d.ts",
     "dist/github.d.ts"
   ],
-  "type": "module",
-  "main": "./dist/index.js",
+  "main": "./cjs/index.js",
+  "module": "./dist/index.mjs",
   "exports": {
     ".": [
       {
-        "import": "./dist/index.js",
-        "require": "./dist/index.cjs",
-        "default": "./dist/index.js"
+        "import": "./dist/index.mjs",
+        "require": "./cjs/index.js",
+        "default": "./dist/index.mjs"
       },
-      "./dist/index.js"
+      "./dist/index.mjs"
     ]
   },
   "types": "dist/index.d.ts",
