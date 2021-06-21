@@ -1,8 +1,5 @@
 {
   "transform": {
     "^.+\\.[jt]s$": "ts-jest"
-  },
-  "moduleNameMapper": {
-    "unhandler$": "<rootDir>/node_modules/@tuplo/unhandler/cjs"
   }
 }
