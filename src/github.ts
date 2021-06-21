@@ -95,7 +95,7 @@ export async function createIssue(
     options
   );
   if (existingIssue) return null;
-  const url = '/repos/:owner/:repo/issues';
+  const url = '/repos/:repo/issues';
 
   return client(
     url,

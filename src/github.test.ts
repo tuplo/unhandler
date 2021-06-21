@@ -27,8 +27,9 @@ describe('unhandler', () => {
 
     expect(result).toBe(expected);
   });
+
   it('creates an issue', async () => {
-    expect.assertions(2);
+    expect.assertions(3);
 
     const fetchSpy = jest.fn().mockReturnValue(
       Promise.resolve({
@@ -58,13 +59,14 @@ ReferenceError: foo is not defined
 
     expect(fetchSpy).toHaveBeenCalledTimes(2);
     const [, request] = fetchSpy.mock.calls;
+    expect(request[0]).toBe('https://api.github.com/repos/foo/bar/issues');
     expect(request[1].body).toStrictEqual(JSON.stringify(issue));
 
     fetchSpy.mockRestore();
   });
 
   it('lists issues', async () => {
-    expect.assertions(3);
+    expect.assertions(4);
 
     const fetchSpy = jest.fn().mockImplementation(() =>
       Promise.resolve({
@@ -86,6 +88,8 @@ ReferenceError: foo is not defined
       title: '[the-castle] uncaughtException',
       labels: [{ name: 'bug' }],
     };
+    const [ request] = fetchSpy.mock.calls;
+    expect(request[0]).toBe('https://api.github.com/repos/foo/bar/issues');
     expect(Array.isArray(result)).toBe(true);
     expect(result).toHaveLength(1);
     expect(result[0]).toMatchObject(expectedIssue);
