@@ -1,13 +1,23 @@
-/* eslint import/no-extraneous-dependencies:off */
-import fetch from 'node-fetch';
-import { mocked } from 'ts-jest/utils';
+import type { RequestInit } from 'node-fetch';
 
-import { buildUrl, createIssue, findIssue, listIssues } from './github';
 import githubIssuesList from './__data__/github-list-issues.json';
+import { buildUrl, createIssue, findIssue, listIssues } from './github';
 
-jest.mock('node-fetch');
+const fetchSpy = jest.fn().mockImplementation(() => Promise.resolve());
+jest.mock('node-fetch', () => ({
+  __esModule: true,
+  default: (url: string, options: RequestInit) => fetchSpy(url, options),
+}));
 
 describe('unhandler', () => {
+  afterEach(() => {
+    fetchSpy.mockClear();
+  });
+
+  afterAll(() => {
+    fetchSpy.mockRestore();
+  });
+
   it.each([
     [
       { user: 'john_doe', repo: 'kill-switch' },
@@ -27,14 +37,13 @@ describe('unhandler', () => {
   });
 
   it('creates an issue', async () => {
-    const fetchSpy = jest.fn().mockReturnValue(
+    fetchSpy.mockReturnValue(
       Promise.resolve({
+        ok: true,
         status: 200,
         json: () => Promise.resolve(githubIssuesList),
       })
     );
-    const mockFetch = mocked(fetch, true);
-    mockFetch.mockImplementation(fetchSpy);
 
     const issue = {
       id: 524659464,
@@ -57,19 +66,16 @@ ReferenceError: foo is not defined
     const [, request] = fetchSpy.mock.calls;
     expect(request[0]).toBe('https://api.github.com/repos/foo/bar/issues');
     expect(request[1].body).toStrictEqual(JSON.stringify(issue));
-
-    fetchSpy.mockRestore();
   });
 
   it('lists issues', async () => {
-    const fetchSpy = jest.fn().mockImplementation(() =>
+    fetchSpy.mockReturnValue(
       Promise.resolve({
+        ok: true,
         status: 200,
         json: () => Promise.resolve(githubIssuesList),
       })
     );
-    const mockedFetch = mocked(fetch, true);
-    mockedFetch.mockImplementation(fetchSpy);
 
     const result = await listIssues({
       user: 'foo',
@@ -87,19 +93,16 @@ ReferenceError: foo is not defined
     expect(Array.isArray(result)).toBe(true);
     expect(result).toHaveLength(1);
     expect(result[0]).toMatchObject(expectedIssue);
-
-    fetchSpy.mockRestore();
   });
 
   it('finds issues given a finder function', async () => {
-    const fetchSpy = jest.fn().mockReturnValue(
+    fetchSpy.mockReturnValue(
       Promise.resolve({
+        ok: true,
         status: 200,
         json: () => Promise.resolve(githubIssuesList),
       })
     );
-    const mockFetch = mocked(fetch, true);
-    mockFetch.mockImplementation(fetchSpy);
 
     const issues = [
       { title: '[the-castle] uncaughtException' },
@@ -122,14 +125,13 @@ ReferenceError: foo is not defined
   });
 
   it("doesn't create an issue if already created", async () => {
-    const fetchSpy = jest.fn().mockReturnValue(
+    fetchSpy.mockReturnValue(
       Promise.resolve({
+        ok: true,
         status: 200,
         json: () => Promise.resolve(githubIssuesList),
       })
     );
-    const mockFetch = mocked(fetch, true);
-    mockFetch.mockImplementation(fetchSpy);
 
     const issue = {
       title: '[the-castle] uncaughtException',
@@ -142,7 +144,28 @@ ReferenceError: foo is not defined
       token: 'secret',
     });
     expect(result).toBeNull();
+  });
 
-    fetchSpy.mockRestore();
+  it('logs instead of creating an issue, when something wrong with request', async () => {
+    const consoleErrorSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => null);
+    fetchSpy.mockReturnValue(
+      Promise.resolve({
+        status: 400,
+        ok: false,
+        statusText: 'Error message',
+      })
+    );
+
+    const issue = { title: '[the-app] error', labels: [], body: 'foo' };
+    await createIssue(issue, { user: 'foo', repo: 'bar', token: 'secret' });
+
+    // only 2 times: 1 to list, 1 to create
+    // if it didn't handle the request error, it would be caught by uncaughtException
+    // thus creating an infinite loop with unhandler
+    expect(fetchSpy).toHaveBeenCalledTimes(2);
+
+    consoleErrorSpy.mockRestore();
   });
 });

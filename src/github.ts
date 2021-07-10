@@ -56,10 +56,15 @@ async function client(
 
   const githubUrl = buildUrl(url, githubOptions);
 
-  return fetch(githubUrl, opts).catch((err) => {
-    console.error(`[github] ${err.message}`);
-    return null;
-  });
+  return fetch(githubUrl, opts)
+    .then((res) => {
+      if (!res.ok) throw new Error(res.statusText);
+      return res;
+    })
+    .catch((err) => {
+      console.error(`[github] ${err.message}`);
+      return null;
+    });
 }
 
 export async function listIssues(

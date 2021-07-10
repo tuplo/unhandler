@@ -1,13 +1,13 @@
 import type { Response } from 'node-fetch';
 import * as github from './github';
 
-type UnhandlerError = Error & { body?: unknown };
+export type UnhandlerError = Error & { body?: unknown };
 
 type Providers = {
   github?: github.GitHubOptions;
 };
 
-type UnhandlerOptions = {
+export type UnhandlerOptions = {
   appName?: string;
   providers: Providers;
 };

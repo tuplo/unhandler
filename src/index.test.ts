@@ -1,11 +1,15 @@
-import * as github from './github';
-import { submitError, uncaughtHandlerFn } from '.';
+import type { UnhandlerError, UnhandlerOptions } from './index';
+import { submitError, uncaughtHandlerFn } from './index';
+
+const githubCreateIssueSpy = jest.fn().mockResolvedValue(null);
+
+jest.mock('./github', () => ({
+  __esModule: true,
+  createIssue: (error: UnhandlerError, options: UnhandlerOptions) =>
+    githubCreateIssueSpy(error, options),
+}));
 
 describe('unhandler', () => {
-  const githubCreateIssueSpy = jest
-    .spyOn(github, 'createIssue')
-    .mockImplementation(() => Promise.resolve(null));
-
   afterEach(() => {
     githubCreateIssueSpy.mockClear();
   });
