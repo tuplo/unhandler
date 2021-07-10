@@ -85,7 +85,8 @@
     },
     "rules": {
       "import/extensions": 0,
-      "jest/no-hooks": "off"
+      "jest/no-hooks": "off",
+      "jest/prefer-expect-assertions": "off"
     },
     "overrides": [
       {

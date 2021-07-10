@@ -15,8 +15,6 @@ describe('unhandler', () => {
   });
 
   it('submits an error', async () => {
-    expect.assertions(2);
-
     const error = new Error('foo');
     await submitError(error, {
       appName: 'app-name',
@@ -35,8 +33,6 @@ describe('unhandler', () => {
   });
 
   it('handles an exception - github', () => {
-    expect.assertions(2);
-
     const error = new Error('foo');
     const uncaughtHandler = uncaughtHandlerFn({
       appName: 'app-name',
@@ -55,7 +51,6 @@ describe('unhandler', () => {
   });
 
   it('handles an exception with a custom body', () => {
-    expect.assertions(2);
     class FooError extends Error {
       public body: string;
 
