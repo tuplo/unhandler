@@ -1,10 +1,11 @@
 import type { Response } from 'node-fetch';
 import * as github from './github';
+import type { GitHubOptions } from './github';
 
 export type UnhandlerError = Error & { body?: unknown };
 
 type Providers = {
-  github?: github.GitHubOptions;
+  github?: GitHubOptions;
 };
 
 export type UnhandlerOptions = {
@@ -21,7 +22,7 @@ export async function submitError(
   let trackerOptions;
   if ('github' in providers) {
     tracker = github;
-    trackerOptions = providers.github as github.GitHubOptions;
+    trackerOptions = providers.github as GitHubOptions;
   }
   if (!tracker || !trackerOptions) return null;
 
@@ -47,8 +48,5 @@ export const uncaughtHandlerFn: UncaughtHandlerFn =
 
 export function unhandler(options: UnhandlerOptions): void {
   const uncaughtHandler = uncaughtHandlerFn(options);
-  process.on('uncaughtException', uncaughtHandler);
-  process.on('unhandledRejection', (reason) => {
-    throw reason;
-  });
+  process.on('uncaughtExceptionMonitor', uncaughtHandler);
 }
