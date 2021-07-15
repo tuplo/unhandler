@@ -48,5 +48,8 @@ export const uncaughtHandlerFn: UncaughtHandlerFn =
 
 export function unhandler(options: UnhandlerOptions): void {
   const uncaughtHandler = uncaughtHandlerFn(options);
-  process.on('uncaughtExceptionMonitor', uncaughtHandler);
+  process.on('uncaughtException', uncaughtHandler);
+  process.on('unhandledRejection', (reason) => {
+    throw reason;
+  });
 }
