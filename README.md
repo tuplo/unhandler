@@ -60,7 +60,7 @@ await submitError(error, {
 
 **Registers an event handler `onBeforeSubmitError`**
 
-````ts
+```ts
 import { submitError } from '@tuplo/unhandler';
 
 const error = new Error('buggy bug');
@@ -96,6 +96,10 @@ await submitError(error, {
 
 The name of the application triggering the error.
 
+##### onBeforeSubmitError: string?
+
+An optional function to be called just before submitting the error.
+
 ##### providers: Provider[]
 
 ##### GitHub
@@ -113,7 +117,7 @@ $ npm install @tuplo/unhandler
 
 # or with yarn
 $ yarn add @tuplo/unhandler
-````
+```
 
 ### Contribute
 
