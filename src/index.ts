@@ -10,6 +10,7 @@ type Providers = {
 
 export type UnhandlerOptions = {
   appName?: string;
+  onBeforeSubmitError?: (error: Error) => void | Promise<void>;
   providers: Providers;
 };
 
@@ -38,13 +39,20 @@ export async function submitError(
   );
 }
 
-type UncaughtHandlerFn = (
+type UncaughtHandlerFn = (error: Error) => Promise<Response | null>;
+export function uncaughtHandlerFn(
   options: UnhandlerOptions
-) => (error: Error) => Promise<Response | null>;
-export const uncaughtHandlerFn: UncaughtHandlerFn =
-  (options) =>
-  (error: UnhandlerError): Promise<Response | null> =>
-    submitError(error, options);
+): UncaughtHandlerFn {
+  return async (error: UnhandlerError): Promise<Response | null> => {
+    const { onBeforeSubmitError } = options;
+
+    if (onBeforeSubmitError) {
+      await Promise.resolve(onBeforeSubmitError(error));
+    }
+
+    return submitError(error, options);
+  };
+}
 
 export function unhandler(options: UnhandlerOptions): void {
   const uncaughtHandler = uncaughtHandlerFn(options);

@@ -33,25 +33,25 @@
     "node": ">=12"
   },
   "dependencies": {
-    "@types/node-fetch": "2.5.11",
+    "@types/node-fetch": "2.5.12",
     "node-fetch": "2.6.1"
   },
   "devDependencies": {
     "@types/jest": "26.0.24",
-    "@types/node": "16.3.2",
-    "@typescript-eslint/eslint-plugin": "4.28.3",
-    "@typescript-eslint/parser": "4.28.3",
+    "@types/node": "16.4.12",
+    "@typescript-eslint/eslint-plugin": "4.29.0",
+    "@typescript-eslint/parser": "4.29.0",
     "create-cert": "1.0.6",
-    "esbuild": "0.12.15",
-    "eslint": "7.30.0",
+    "esbuild": "0.12.18",
+    "eslint": "7.32.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-import": "2.23.4",
-    "eslint-plugin-jest": "24.3.6",
+    "eslint-plugin-jest": "24.4.0",
     "jest": "27.0.6",
     "nyc": "15.1.0",
     "prettier": "2.3.2",
-    "ts-jest": "27.0.3",
+    "ts-jest": "27.0.4",
     "typescript": "4.3.5"
   },
   "scripts": {

@@ -10,9 +10,7 @@ Creates bug reports for uncaught exceptions and unhandled rejections. Works like
   <a href="https://codeclimate.com/github/tuplo/unhandler/test_coverage">
     <img src="https://api.codeclimate.com/v1/badges/b460b35ffc1d540fb7d9/test_coverage" />
   </a>
-  <img src="https://packagephobia.now.sh/badge?p=@tuplo/unhandler">
 </p>
-
 
 ## Usage
 
@@ -60,6 +58,28 @@ await submitError(error, {
 // will create a GitHub issue with title "[my-app-1] buggy bug"
 ```
 
+**Registers an event handler `onBeforeSubmitError`**
+
+````ts
+import { submitError } from '@tuplo/unhandler';
+
+const error = new Error('buggy bug');
+
+await submitError(error, {
+  appName: 'my-app-1',
+  onBeforeSubmitError: (error) => console.error(error),
+  providers: {
+    github: {
+      user: 'tuplo',
+      repo: 'unhandler',
+      token: 'secret-token-xxxxxxx',
+    },
+  },
+});
+
+// will output the error before submitting
+```
+
 ## Error tracking providers
 
 - [x] GitHub Issues
@@ -93,7 +113,7 @@ $ npm install @tuplo/unhandler
 
 # or with yarn
 $ yarn add @tuplo/unhandler
-```
+````
 
 ### Contribute
 

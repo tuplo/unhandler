@@ -80,4 +80,23 @@ describe('unhandler', () => {
       body: '```\nbar baz buz\n```',
     });
   });
+
+  it.each([
+    ['regular function', jest.fn()],
+    ['async function', jest.fn().mockReturnValue(Promise.resolve())],
+  ])('calls onBeforeSubmitError if one is provided: %s', async (_, spy) => {
+    const onBeforeSubmitErrorSpy = spy;
+    const error = new Error('foo');
+    const uncaughtHandler = uncaughtHandlerFn({
+      appName: 'app-name',
+      providers: {
+        github: { user: 'foo', repo: 'foo/bar', token: 'secret' },
+      },
+      onBeforeSubmitError: onBeforeSubmitErrorSpy,
+    });
+    uncaughtHandler(error);
+
+    expect(onBeforeSubmitErrorSpy).toHaveBeenCalledTimes(1);
+    expect(onBeforeSubmitErrorSpy).toHaveBeenCalledWith(error);
+  });
 });
