@@ -45,12 +45,13 @@ async function client(
     retries: 0,
   };
 
+  const { headers, ...restOfOptions } = options;
   const opts = {
     ...defaultOptions,
-    ...options,
+    ...restOfOptions,
     headers: {
       ...defaultOptions.headers,
-      ...options.headers,
+      ...headers,
     },
   };
 
@@ -62,7 +63,7 @@ async function client(
       return res;
     })
     .catch((err) => {
-      console.error(`[github] ${err.message}`);
+      console.error('[github]', err.message, githubUrl, options);
       return null;
     });
 }
@@ -72,12 +73,9 @@ export async function listIssues(
 ): Promise<GithubIssue[]> {
   const url = '/repos/:repo/issues';
 
-  return client(url, { method: 'get' }, githubOptions)
-    .then((res) => res && res.json())
-    .catch((err) => {
-      console.error(`[github] ${err.message}`);
-      return null;
-    });
+  return client(url, { method: 'get' }, githubOptions).then(
+    (res) => res && res.json()
+  );
 }
 
 type FinderFn = (issue: GithubIssue) => boolean;
