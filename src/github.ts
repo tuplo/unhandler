@@ -1,7 +1,7 @@
 /* eslint no-console:off */
 import { Agent } from 'https';
-import fetch from 'node-fetch';
-import type { RequestInit, Response } from 'node-fetch';
+import fetch from '@tuplo/fetch';
+import type { FetchOptions, Response } from '@tuplo/fetch';
 
 type GithubIssue = {
   id?: number;
@@ -27,11 +27,11 @@ export function buildUrl(
   return ['https://api.github.com', template.replace(/:repo/, repo)].join('');
 }
 
-async function client(
+async function client<T = unknown>(
   url: string,
-  options: RequestInit,
+  options: FetchOptions,
   githubOptions: GitHubOptions
-): Promise<Response | null> {
+): Promise<Response<T> | null> {
   const { user, token } = githubOptions;
   const defaultOptions = {
     agent: new Agent({
@@ -42,7 +42,6 @@ async function client(
       Authorization: `token ${token}`,
       'User-Agent': user,
     },
-    retries: 0,
   };
 
   const { headers, ...restOfOptions } = options;
@@ -57,8 +56,8 @@ async function client(
 
   const githubUrl = buildUrl(url, githubOptions);
 
-  return fetch(githubUrl, opts)
-    .then((res) => {
+  return fetch<T>(githubUrl, opts)
+    .then(async (res) => {
       if (!res.ok) throw new Error(res.statusText);
       return res;
     })
@@ -73,8 +72,8 @@ export async function listIssues(
 ): Promise<GithubIssue[]> {
   const url = '/repos/:repo/issues';
 
-  return client(url, { method: 'get' }, githubOptions).then(
-    (res) => res && res.json()
+  return client<GithubIssue[]>(url, { method: 'GET' }, githubOptions).then(
+    (res) => res?.json() || []
   );
 }
 
@@ -103,7 +102,7 @@ export async function createIssue(
   return client(
     url,
     {
-      method: 'post',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(issue),
     },

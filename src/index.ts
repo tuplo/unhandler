@@ -1,4 +1,5 @@
-import type { Response } from 'node-fetch';
+import type { Response } from '@tuplo/fetch';
+
 import * as github from './github';
 import type { GitHubOptions } from './github';
 

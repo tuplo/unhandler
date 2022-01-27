@@ -4,7 +4,13 @@ rimraf dist
 rimraf cjs
 tsc --build tsconfig.build.json
 
-esbuild src/index.cjs --bundle --platform=node --outfile=cjs/index.js \
-  --external:node-fetch --external:https
-esbuild src/index.ts --bundle --format=esm --outfile=dist/index.mjs \
-  --external:node-fetch --external:https
+esbuild src/index.cjs \
+  --bundle \
+  --platform=node \
+  --outfile=cjs/index.js
+
+esbuild src/index.ts \
+  --bundle \
+  --format=esm \
+  --platform=node \
+  --outfile=dist/index.mjs

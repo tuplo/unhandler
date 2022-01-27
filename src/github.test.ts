@@ -1,12 +1,12 @@
-import type { RequestInit } from 'node-fetch';
+import type { FetchOptions } from '@tuplo/fetch';
 
 import githubIssuesList from './__data__/github-list-issues.json';
 import { buildUrl, createIssue, findIssue, listIssues } from './github';
 
 const fetchSpy = jest.fn().mockImplementation(() => Promise.resolve());
-jest.mock('node-fetch', () => ({
+jest.mock('@tuplo/fetch', () => ({
   __esModule: true,
-  default: (url: string, options: RequestInit) => fetchSpy(url, options),
+  default: (url: string, options: FetchOptions) => fetchSpy(url, options),
 }));
 
 describe('unhandler', () => {
