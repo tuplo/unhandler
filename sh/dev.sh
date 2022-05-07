@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-esbuild src/index.ts \
-  --bundle \
-  --platform=node \
-  --format=esm \
-  --outfile=dist/index.mjs \
-  --external:node-fetch \
-  --watch
+main() {
+  esbuild src/index.ts \
+    --bundle \
+    --platform=node \
+    --format=esm \
+    --outfile=dist/index.mjs \
+    --external:node-fetch \
+    --watch
+}
+
+main

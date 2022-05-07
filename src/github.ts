@@ -29,7 +29,7 @@ export function buildUrl(
 
 async function client<T = unknown>(
   url: string,
-  options: FetchOptions,
+  options: Partial<FetchOptions>,
   githubOptions: GitHubOptions
 ): Promise<Response<T> | null> {
   const { user, token } = githubOptions;
