@@ -1,7 +1,7 @@
 /* eslint no-console:off */
 import { Agent } from 'https';
-import { fetch } from 'undici';
-import type { Response, RequestInit } from 'undici';
+import fetch from '@tuplo/fetch';
+import type { FetchOptions, Response } from '@tuplo/fetch';
 
 type GithubIssue = {
 	id?: number;
@@ -27,11 +27,11 @@ export function buildUrl(
 	return ['https://api.github.com', template.replace(/:repo/, repo)].join('');
 }
 
-async function client(
+async function client<T = unknown>(
 	url: string,
-	options: RequestInit, // Partial<FetchOptions>,
+	options: Partial<FetchOptions>,
 	githubOptions: GitHubOptions
-): Promise<Response | null> {
+): Promise<Response<T> | null> {
 	const { user, token } = githubOptions;
 	const defaultOptions = {
 		agent: new Agent({
@@ -56,7 +56,7 @@ async function client(
 
 	const githubUrl = buildUrl(url, githubOptions);
 
-	return fetch(githubUrl, opts)
+	return fetch<T>(githubUrl, opts)
 		.then(async (res) => {
 			if (!res.ok) throw new Error(res.statusText);
 			return res;
@@ -72,9 +72,9 @@ export async function listIssues(
 ): Promise<GithubIssue[]> {
 	const url = '/repos/:repo/issues';
 
-	return client(url, { method: 'GET' }, githubOptions).then(
+	return client<GithubIssue[]>(url, { method: 'GET' }, githubOptions).then(
 		(res) => res?.json() || []
-	) as Promise<GithubIssue[]>;
+	);
 }
 
 type FinderFn = (issue: GithubIssue) => boolean;

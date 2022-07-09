@@ -1,12 +1,12 @@
-import type { RequestInit } from 'undici';
+import type { FetchOptions } from '@tuplo/fetch';
 
 import githubIssuesList from './__data__/github-list-issues.json';
 import { buildUrl, createIssue, findIssue, listIssues } from './github';
 
 const fetchSpy = jest.fn().mockImplementation(() => Promise.resolve());
-jest.mock('undici', () => ({
+jest.mock('@tuplo/fetch', () => ({
 	__esModule: true,
-	fetch: (url: string, options: RequestInit) => fetchSpy(url, options),
+	default: (url: string, options: FetchOptions) => fetchSpy(url, options),
 }));
 
 describe('unhandler', () => {
