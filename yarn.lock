@@ -735,11 +735,6 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@tuplo/fetch@1.8.3":
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/@tuplo/fetch/-/fetch-1.8.3.tgz#e0d055a12632f0484a9bae50e9753c71522c4e3f"
-  integrity sha512-CO8zrevqL9AA1+pux7lR1ZeU0upFUn0XzoDGNLLxyKK6G6Necl52IbeW4WT3e09jMDt08cNkoaA7UoLsXay5kw==
-
 "@types/babel__core@^7.1.14":
   version "7.1.18"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.18.tgz#1a29abcc411a9c05e2094c98f9a1b7da6cdf49f8"
@@ -3754,6 +3749,11 @@ unbox-primitive@^1.0.1:
     has-bigints "^1.0.1"
     has-symbols "^1.0.2"
     which-boxed-primitive "^1.0.2"
+
+undici@5.6.1:
+  version "5.6.1"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-5.6.1.tgz#7e5c56d15032d06738358dea433f98130e2a0561"
+  integrity sha512-yYVqywdCbNb99f/w045wqmv++WExXDjY0FEvLSB7QUZZH6izxrVkF4dJn1aimcvN0+WAhv75Gg7v6VJoqmRtJQ==
 
 uri-js@^4.2.2:
   version "4.4.1"

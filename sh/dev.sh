@@ -7,7 +7,6 @@ main() {
     --platform=node \
     --format=esm \
     --outfile=dist/index.mjs \
-    --external:node-fetch \
     --watch
 }
 

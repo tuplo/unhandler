@@ -1,12 +1,12 @@
-import type { FetchOptions } from '@tuplo/fetch';
+import type { RequestInit } from 'undici';
 
 import githubIssuesList from './__data__/github-list-issues.json';
 import { buildUrl, createIssue, findIssue, listIssues } from './github';
 
 const fetchSpy = jest.fn().mockImplementation(() => Promise.resolve());
-jest.mock('@tuplo/fetch', () => ({
+jest.mock('undici', () => ({
 	__esModule: true,
-	default: (url: string, options: FetchOptions) => fetchSpy(url, options),
+	fetch: (url: string, options: RequestInit) => fetchSpy(url, options),
 }));
 
 describe('unhandler', () => {
@@ -84,7 +84,7 @@ ReferenceError: foo is not defined
 		});
 
 		const expectedIssue = {
-			url: 'https://api.github.com/repos/ruicosta042/fc-agent/issues/16',
+			url: 'https://api.github.com/repos/username/my-repo/issues/16',
 			title: '[the-castle] uncaughtException',
 			labels: [{ name: 'bug' }],
 		};

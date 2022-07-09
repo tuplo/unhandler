@@ -1,4 +1,4 @@
-import type { Response } from '@tuplo/fetch';
+import type { Response } from 'undici';
 
 import * as github from './github';
 import type { GitHubOptions } from './github';

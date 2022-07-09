@@ -33,7 +33,7 @@
 		"node": ">=14"
 	},
 	"dependencies": {
-		"@tuplo/fetch": "1.8.3"
+		"undici": "5.6.1"
 	},
 	"devDependencies": {
 		"@types/jest": "28.1.4",
