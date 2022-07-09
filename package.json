@@ -1,116 +1,121 @@
 {
-  "name": "@tuplo/unhandler",
-  "description": "Creates bug reports for uncaught exceptions and unhandled rejections",
-  "version": "0.0.0-development",
-  "repository": "git@github.com:tuplo/unhandler.git",
-  "author": "Rui Costa",
-  "license": "MIT",
-  "keywords": [
-    "error handling",
-    "error monitoring",
-    "github issues"
-  ],
-  "files": [
-    "cjs/index.js",
-    "dist/index.mjs",
-    "dist/index.d.ts",
-    "dist/github.d.ts"
-  ],
-  "main": "./cjs/index.js",
-  "module": "./dist/index.mjs",
-  "exports": {
-    ".": [
-      {
-        "import": "./dist/index.mjs",
-        "require": "./cjs/index.js",
-        "default": "./dist/index.mjs"
-      },
-      "./dist/index.mjs"
-    ]
-  },
-  "types": "dist/index.d.ts",
-  "engines": {
-    "node": ">=14"
-  },
-  "dependencies": {
-    "@tuplo/fetch": "1.8.0"
-  },
-  "devDependencies": {
-    "@types/jest": "27.5.0",
-    "@types/node": "17.0.31",
-    "@typescript-eslint/eslint-plugin": "5.22.0",
-    "@typescript-eslint/parser": "5.22.0",
-    "create-cert": "1.0.6",
-    "esbuild": "0.14.38",
-    "eslint": "8.15.0",
-    "eslint-config-airbnb-base": "15.0.0",
-    "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-jest": "26.1.5",
-    "jest": "28.1.0",
-    "nyc": "15.1.0",
-    "prettier": "2.6.2",
-    "ts-jest": "28.0.1",
-    "typescript": "4.6.4"
-  },
-  "scripts": {
-    "build": "bash sh/build.sh",
-    "dev": "bash sh/dev.sh",
-    "lint:ts": "tsc --noEmit",
-    "lint": "eslint src --ext ts",
-    "test:ci:coverage": "bash sh/coverage.sh",
-    "test:ci": "jest --ci",
-    "test": "jest --watch"
-  },
-  "eslintConfig": {
-    "extends": [
-      "airbnb-base",
-      "prettier",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:import/typescript",
-      "plugin:jest/all"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-      "@typescript-eslint",
-      "jest"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 9,
-      "project": "./tsconfig.json"
-    },
-    "env": {
-      "node": true,
-      "jest": true
-    },
-    "rules": {
-      "import/extensions": 0,
-      "jest/no-hooks": "off",
-      "jest/prefer-expect-assertions": "off"
-    },
-    "overrides": [
-      {
-        "files": [
-          "**/*.ts"
-        ],
-        "rules": {
-          "no-undef": "off"
-        }
-      }
-    ]
-  },
-  "jest": {
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "transform": {
-      "^.+\\.(t|j)sx?$": "ts-jest"
-    },
-    "testEnvironment": "node"
-  },
-  "prettier": {
-    "singleQuote": true,
-    "trailingComma": "es5",
-    "printWidth": 80
-  }
+	"name": "@tuplo/unhandler",
+	"description": "Creates bug reports for uncaught exceptions and unhandled rejections",
+	"version": "0.0.0-development",
+	"repository": "git@github.com:tuplo/unhandler.git",
+	"author": "Rui Costa",
+	"license": "MIT",
+	"keywords": [
+		"error handling",
+		"error monitoring",
+		"github issues"
+	],
+	"files": [
+		"cjs/index.js",
+		"dist/index.mjs",
+		"dist/index.d.ts",
+		"dist/github.d.ts"
+	],
+	"main": "./cjs/index.js",
+	"module": "./dist/index.mjs",
+	"exports": {
+		".": [
+			{
+				"import": "./dist/index.mjs",
+				"require": "./cjs/index.js",
+				"default": "./dist/index.mjs"
+			},
+			"./dist/index.mjs"
+		]
+	},
+	"types": "dist/index.d.ts",
+	"engines": {
+		"node": ">=14"
+	},
+	"dependencies": {
+		"@tuplo/fetch": "1.8.3"
+	},
+	"devDependencies": {
+		"@types/jest": "28.1.4",
+		"@types/node": "18.0.3",
+		"@typescript-eslint/eslint-plugin": "5.30.5",
+		"@typescript-eslint/parser": "5.30.5",
+		"create-cert": "1.0.6",
+		"esbuild": "0.14.48",
+		"eslint": "8.19.0",
+		"eslint-config-airbnb-base": "15.0.0",
+		"eslint-config-prettier": "8.5.0",
+		"eslint-plugin-import": "2.26.0",
+		"eslint-plugin-jest": "26.5.3",
+		"jest": "28.1.2",
+		"nyc": "15.1.0",
+		"prettier": "2.7.1",
+		"ts-jest": "28.0.5",
+		"typescript": "4.7.4"
+	},
+	"scripts": {
+		"build": "bash sh/build.sh",
+		"dev": "bash sh/dev.sh",
+		"lint:ts": "tsc --noEmit",
+		"lint": "eslint src --ext ts",
+		"test:ci:coverage": "bash sh/coverage.sh",
+		"test:ci": "jest --ci",
+		"test": "jest --watch"
+	},
+	"eslintConfig": {
+		"extends": [
+			"airbnb-base",
+			"prettier",
+			"plugin:@typescript-eslint/recommended",
+			"plugin:import/typescript",
+			"plugin:jest/all"
+		],
+		"parser": "@typescript-eslint/parser",
+		"plugins": [
+			"@typescript-eslint",
+			"jest"
+		],
+		"parserOptions": {
+			"ecmaVersion": 9,
+			"project": "./tsconfig.json"
+		},
+		"env": {
+			"node": true,
+			"jest": true
+		},
+		"rules": {
+			"import/extensions": 0,
+			"jest/no-hooks": "off",
+			"jest/prefer-expect-assertions": "off"
+		},
+		"overrides": [
+			{
+				"files": [
+					"**/*.ts"
+				],
+				"rules": {
+					"no-undef": "off"
+				}
+			}
+		]
+	},
+	"jest": {
+		"roots": [
+			"<rootDir>/src"
+		],
+		"transform": {
+			"^.+\\.(t|j)sx?$": "ts-jest"
+		},
+		"testEnvironment": "node"
+	},
+	"prettier": {
+		"singleQuote": true,
+		"trailingComma": "es5",
+		"printWidth": 80,
+		"useTabs": true
+	},
+	"volta": {
+		"node": "18.5.0",
+		"yarn": "1.22.19"
+	}
 }
