@@ -1,16 +1,29 @@
-# unhandler
+<br />
+<div align="center">
+  <img src="logo.png" alt="Logo" width="120" height="120">
+  <h1 align="center">unhandler</h3>
+  <p align="center">Creates bug reports for uncaught exceptions and unhandled rejections</p>
+  <p align="center">
+    <img src="https://img.shields.io/npm/v/@tuplo/unhandler">
+    <img src="https://img.shields.io/bundlephobia/minzip/@tuplo/unhandler">
+  	 <a href="https://codeclimate.com/github/tuplo/unhandler/test_coverage">
+      <img src="https://api.codeclimate.com/v1/badges/b460b35ffc1d540fb7d9/test_coverage" /></a>
+  	 <img src="https://github.com/tuplo/unhandler/actions/workflows/build.yml/badge.svg">
+  </p>
+</div>
+
+## Why
 
 Creates bug reports for uncaught exceptions and unhandled rejections. Works like a DYI Sentry client for NodeJS. Can publish bug reports on different trackers simultaneously. Not suited to be used on browsers as it would need to expose your APIs' access secrets to the public.
 
-<p>
-  <img src="https://img.shields.io/npm/v/@tuplo/unhandler">
-  <a href="https://codeclimate.com/github/tuplo/unhandler/maintainability">
-    <img src="https://api.codeclimate.com/v1/badges/b460b35ffc1d540fb7d9/maintainability" />
-  </a>
-  <a href="https://codeclimate.com/github/tuplo/unhandler/test_coverage">
-    <img src="https://api.codeclimate.com/v1/badges/b460b35ffc1d540fb7d9/test_coverage" />
-  </a>
-</p>
+## Install
+
+```bash
+$ npm install @tuplo/unhandler
+
+# or with yarn
+$ yarn add @tuplo/unhandler
+```
 
 ## Usage
 
@@ -109,15 +122,6 @@ An optional function to be called just before submitting the error.
 | user  | string | The user or organization, owner of the repository where issues will be created. |
 | repo  | string | The name of the repository where issues will be created.                        |
 | token | string | GitHub's personal access token with a `repo` scope.                             |
-
-## Install
-
-```bash
-$ npm install @tuplo/unhandler
-
-# or with yarn
-$ yarn add @tuplo/unhandler
-```
 
 ### License
 
