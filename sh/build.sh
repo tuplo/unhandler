@@ -6,16 +6,20 @@ main() {
   rm -rf cjs
   tsc --build tsconfig.build.json
 
-  esbuild src/cjs/index.cjs \
+  esbuild src/index.ts \
     --bundle \
     --platform=node \
-    --outfile=cjs/index.js
+    --minify \
+    --outfile=dist/index.cjs.js
 
   esbuild src/index.ts \
     --bundle \
     --format=esm \
     --platform=node \
-    --outfile=dist/index.mjs
+    --minify \
+    --outfile=dist/index.esm.js
+
+  rm dist/github.js dist/index.js
 }
 
 main
