@@ -28,11 +28,12 @@ export async function submitError(
 	}
 	if (!tracker || !trackerOptions) return null;
 
+	const [title] = error.message?.split('\n') || ['Unknown error'];
 	const { labels = ['bug'] } = trackerOptions || {};
 
 	return tracker.createIssue(
 		{
-			title: [appName && `[${appName}]`, error.message].join(' '),
+			title: [appName && `[${appName}]`, title].join(' '),
 			labels,
 			body: `\`\`\`\n${error.body || error.stack}\n\`\`\``,
 		},

@@ -58,7 +58,7 @@
 		"dev": "bash sh/dev.sh",
 		"lint:ts": "tsc --noEmit",
 		"lint": "eslint src --ext ts",
-		"test:ci:coverage": "bash sh/coverage.sh",
+		"coverage": "bash sh/coverage.sh",
 		"test:ci": "jest --ci",
 		"test": "jest --watch"
 	},

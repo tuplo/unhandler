@@ -36,6 +36,24 @@ describe('unhandler', () => {
 		expect(payload).toMatchObject(expected);
 	});
 
+	it("makes sure error doesn't have break lines on title", async () => {
+		const error = new Error(['line1', 'line2'].join('\n'));
+		await submitError(error, {
+			appName: 'app-name',
+			providers: {
+				github: { user: 'foo', repo: 'foo/bar', token: 'secret-token' },
+			},
+		});
+
+		const expected = {
+			title: '[app-name] line1',
+			labels: ['bug'],
+		};
+		expect(githubCreateIssueSpy).toHaveBeenCalledTimes(1);
+		const [payload] = githubCreateIssueSpy.mock.calls[0];
+		expect(payload).toMatchObject(expected);
+	});
+
 	it('handles an exception - github', () => {
 		const error = new Error('foo');
 		const uncaughtHandler = uncaughtHandlerFn({
