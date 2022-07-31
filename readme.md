@@ -99,29 +99,32 @@ await submitError(error, {
 - [ ] Trello
 - [ ] JIRA
 
-## API
+## Options
 
-### unhandler(options)
 
-#### options
+### appName
 
-##### appName: string
+> `string` 
 
 The name of the application triggering the error.
 
-##### onBeforeSubmitError: string?
+### onBeforeSubmitError
+
+> `(error) => Promise<void>` | optional
 
 An optional function to be called just before submitting the error.
 
-##### providers: Provider[]
+### providers
+
+> `Provider[]`
 
 ##### GitHub
 
 | name  | type   | description                                                                     |
 | ----- | ------ | ------------------------------------------------------------------------------- |
-| user  | string | The user or organization, owner of the repository where issues will be created. |
-| repo  | string | The name of the repository where issues will be created.                        |
-| token | string | GitHub's personal access token with a `repo` scope.                             |
+| user  | `string` | The user or organization, owner of the repository where issues will be created. |
+| repo  | `string` | The name of the repository where issues will be created.                        |
+| token | `string` | GitHub's personal access token with a `repo` scope.                             |
 
 ### License
 
