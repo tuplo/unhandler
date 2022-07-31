@@ -3,7 +3,7 @@ import type { FetchOptions } from '@tuplo/fetch';
 import githubIssuesList from './__data__/github-list-issues.json';
 import { buildUrl, createIssue, findIssue, listIssues } from './github';
 
-const fetchSpy = jest.fn().mockImplementation(() => Promise.resolve());
+const fetchSpy = jest.fn().mockResolvedValue(undefined);
 jest.mock('@tuplo/fetch', () => ({
 	__esModule: true,
 	default: (url: string, options: FetchOptions) => fetchSpy(url, options),
@@ -37,13 +37,11 @@ describe('unhandler', () => {
 	});
 
 	it('creates an issue', async () => {
-		fetchSpy.mockReturnValue(
-			Promise.resolve({
-				ok: true,
-				status: 200,
-				json: () => Promise.resolve(githubIssuesList),
-			})
-		);
+		fetchSpy.mockResolvedValue({
+			ok: true,
+			status: 200,
+			json: () => Promise.resolve(githubIssuesList),
+		});
 
 		const issue = {
 			id: 524659464,
@@ -69,13 +67,11 @@ ReferenceError: foo is not defined
 	});
 
 	it('lists issues', async () => {
-		fetchSpy.mockReturnValue(
-			Promise.resolve({
-				ok: true,
-				status: 200,
-				json: () => Promise.resolve(githubIssuesList),
-			})
-		);
+		fetchSpy.mockResolvedValue({
+			ok: true,
+			status: 200,
+			json: () => Promise.resolve(githubIssuesList),
+		});
 
 		const result = await listIssues({
 			user: 'foo',
@@ -96,13 +92,11 @@ ReferenceError: foo is not defined
 	});
 
 	it('finds issues given a finder function', async () => {
-		fetchSpy.mockReturnValue(
-			Promise.resolve({
-				ok: true,
-				status: 200,
-				json: () => Promise.resolve(githubIssuesList),
-			})
-		);
+		fetchSpy.mockResolvedValue({
+			ok: true,
+			status: 200,
+			json: () => Promise.resolve(githubIssuesList),
+		});
 
 		const issues = [
 			{ title: '[the-castle] uncaughtException' },
@@ -125,13 +119,11 @@ ReferenceError: foo is not defined
 	});
 
 	it("doesn't create an issue if already created", async () => {
-		fetchSpy.mockReturnValue(
-			Promise.resolve({
-				ok: true,
-				status: 200,
-				json: () => Promise.resolve(githubIssuesList),
-			})
-		);
+		fetchSpy.mockResolvedValue({
+			ok: true,
+			status: 200,
+			json: () => Promise.resolve(githubIssuesList),
+		});
 
 		const issue = {
 			title: '[the-castle] uncaughtException',
@@ -150,13 +142,11 @@ ReferenceError: foo is not defined
 		const consoleErrorSpy = jest
 			.spyOn(console, 'error')
 			.mockImplementation(() => null);
-		fetchSpy.mockReturnValue(
-			Promise.resolve({
-				status: 400,
-				ok: false,
-				statusText: 'Error message',
-			})
-		);
+		fetchSpy.mockResolvedValue({
+			status: 400,
+			ok: false,
+			statusText: 'Error message',
+		});
 
 		const issue = { title: '[the-app] error', labels: [], body: 'foo' };
 		await createIssue(issue, { user: 'foo', repo: 'bar', token: 'secret' });

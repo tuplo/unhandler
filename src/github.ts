@@ -98,13 +98,15 @@ export async function createIssue(
 	);
 	if (existingIssue) return null;
 	const url = '/repos/:repo/issues';
+	// github api issue body limit is 65_536 chars
+	const body = JSON.stringify(issue).slice(0, 65_536);
 
 	return client(
 		url,
 		{
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(issue),
+			body,
 		},
 		options
 	);

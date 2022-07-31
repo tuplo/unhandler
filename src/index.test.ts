@@ -101,7 +101,7 @@ describe('unhandler', () => {
 
 	it.each([
 		['regular function', jest.fn()],
-		['async function', jest.fn().mockReturnValue(Promise.resolve())],
+		['async function', jest.fn().mockResolvedValue(undefined)],
 	])('calls onBeforeSubmitError if one is provided: %s', async (_, spy) => {
 		const onBeforeSubmitErrorSpy = spy;
 		const error = new Error('foo');
