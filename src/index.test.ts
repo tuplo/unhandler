@@ -1,11 +1,11 @@
-import type { UnhandlerError, UnhandlerOptions } from './index';
+import type { IUnhandlerError, IUnhandlerOptions } from './index';
 import { submitError, uncaughtHandlerFn } from './index';
 
 const githubCreateIssueSpy = jest.fn().mockResolvedValue(null);
 
 jest.mock('./github', () => ({
 	__esModule: true,
-	createIssue: (error: UnhandlerError, options: UnhandlerOptions) =>
+	createIssue: (error: IUnhandlerError, options: IUnhandlerOptions) =>
 		githubCreateIssueSpy(error, options),
 }));
 

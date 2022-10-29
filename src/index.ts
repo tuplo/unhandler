@@ -1,30 +1,32 @@
 import type { Response } from '@tuplo/fetch';
 
 import * as github from './github';
-import type { GitHubOptions } from './github';
+import type { IGitHubOptions } from './github';
 
-export type UnhandlerError = Error & { body?: unknown };
+export interface IUnhandlerError extends Error {
+	body?: unknown;
+}
 
-type Providers = {
-	github?: GitHubOptions;
-};
+interface IProviders {
+	github?: IGitHubOptions;
+}
 
-export type UnhandlerOptions = {
+export interface IUnhandlerOptions {
 	appName?: string;
 	onBeforeSubmitError?: (error: Error) => void | Promise<void>;
-	providers: Providers;
-};
+	providers: IProviders;
+}
 
 export async function submitError(
-	error: UnhandlerError,
-	options: UnhandlerOptions
-): Promise<Response | null> {
+	error: IUnhandlerError,
+	options: IUnhandlerOptions
+) {
 	const { appName, providers } = options;
 	let tracker;
 	let trackerOptions;
 	if ('github' in providers) {
 		tracker = github;
-		trackerOptions = providers.github as GitHubOptions;
+		trackerOptions = providers.github as IGitHubOptions;
 	}
 	if (!tracker || !trackerOptions) return null;
 
@@ -41,11 +43,8 @@ export async function submitError(
 	);
 }
 
-type UncaughtHandlerFn = (error: Error) => Promise<Response | null>;
-export function uncaughtHandlerFn(
-	options: UnhandlerOptions
-): UncaughtHandlerFn {
-	return async (error: UnhandlerError): Promise<Response | null> => {
+export function uncaughtHandlerFn(options: IUnhandlerOptions) {
+	return async (error: IUnhandlerError): Promise<Response | null> => {
 		const { onBeforeSubmitError } = options;
 
 		if (onBeforeSubmitError) {
@@ -56,7 +55,7 @@ export function uncaughtHandlerFn(
 	};
 }
 
-export function unhandler(options: UnhandlerOptions): void {
+export function unhandler(options: IUnhandlerOptions) {
 	const uncaughtHandler = uncaughtHandlerFn(options);
 	process.on('uncaughtException', uncaughtHandler);
 	process.on('unhandledRejection', (reason) => {

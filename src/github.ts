@@ -1,26 +1,23 @@
 /* eslint no-console:off */
 import { Agent } from 'https';
 import fetch from '@tuplo/fetch';
-import type { FetchOptions, Response } from '@tuplo/fetch';
+import type { FetchOptions } from '@tuplo/fetch';
 
-type GithubIssue = {
+interface IGithubIssue {
 	id?: number;
 	title: string;
 	labels: string[];
 	body: string;
-};
+}
 
-export type GitHubOptions = {
+export interface IGitHubOptions {
 	user: string;
 	repo: string;
 	token: string;
 	labels?: string[];
-};
+}
 
-export function buildUrl(
-	template: string,
-	githubOptions: GitHubOptions
-): string {
+export function buildUrl(template: string, githubOptions: IGitHubOptions) {
 	const { user, repo: repoName } = githubOptions;
 	const repo = !/\//.test(repoName) ? `${user}/${repoName}` : repoName;
 
@@ -30,8 +27,8 @@ export function buildUrl(
 async function client<T = unknown>(
 	url: string,
 	options: Partial<FetchOptions>,
-	githubOptions: GitHubOptions
-): Promise<Response<T> | null> {
+	githubOptions: IGitHubOptions
+) {
 	const { user, token } = githubOptions;
 	const defaultOptions = {
 		agent: new Agent({
@@ -67,21 +64,19 @@ async function client<T = unknown>(
 		});
 }
 
-export async function listIssues(
-	githubOptions: GitHubOptions
-): Promise<GithubIssue[]> {
+export async function listIssues(githubOptions: IGitHubOptions) {
 	const url = '/repos/:repo/issues';
 
-	return client<GithubIssue[]>(url, { method: 'GET' }, githubOptions).then(
+	return client<IGithubIssue[]>(url, { method: 'GET' }, githubOptions).then(
 		(res) => res?.json() || []
 	);
 }
 
-type FinderFn = (issue: GithubIssue) => boolean;
+type FinderFn = (issue: IGithubIssue) => boolean;
 export async function findIssue(
 	finder: FinderFn,
-	options: GitHubOptions
-): Promise<GithubIssue | null> {
+	options: IGitHubOptions
+): Promise<IGithubIssue | null> {
 	const issues = await listIssues(options);
 	if (issues === null) return null;
 
@@ -89,9 +84,9 @@ export async function findIssue(
 }
 
 export async function createIssue(
-	issue: GithubIssue,
-	options: GitHubOptions
-): Promise<Response | null> {
+	issue: IGithubIssue,
+	options: IGitHubOptions
+) {
 	const existingIssue = await findIssue(
 		(i) => i.title === issue.title,
 		options
@@ -99,7 +94,7 @@ export async function createIssue(
 	if (existingIssue) return null;
 	const url = '/repos/:repo/issues';
 	// github api issue body limit is 65_536 chars
-	const body = JSON.stringify(issue).slice(0, 65_536);
+	const body = JSON.stringify(issue).slice(0, 62_000);
 
 	return client(
 		url,
