@@ -72,9 +72,12 @@ export async function listIssues(githubOptions: IGitHubOptions) {
 	);
 }
 
-type FinderFn = (issue: IGithubIssue) => boolean;
+interface IFinderFn {
+	(issue: IGithubIssue): boolean;
+}
+
 export async function findIssue(
-	finder: FinderFn,
+	finder: IFinderFn,
 	options: IGitHubOptions
 ): Promise<IGithubIssue | null> {
 	const issues = await listIssues(options);
@@ -92,16 +95,22 @@ export async function createIssue(
 		options
 	);
 	if (existingIssue) return null;
+
 	const url = '/repos/:repo/issues';
-	// github api issue body limit is 65_536 chars
-	const body = JSON.stringify(issue).slice(0, 62_000);
+	const { title, labels, body } = issue;
+	const issueBody = {
+		title: title.slice(0, 64),
+		labels,
+		// github api issue body limit is 65_536 chars
+		body: body.slice(0, 65_536),
+	};
 
 	return client(
 		url,
 		{
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body,
+			body: JSON.stringify(issueBody),
 		},
 		options
 	);

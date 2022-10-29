@@ -44,8 +44,8 @@ describe('unhandler', () => {
 		});
 
 		const issue = {
-			id: 524659464,
 			title: '[the-castle] ReferenceError: foo is not defined',
+			labels: ['bug'],
 			body: `\`\`\`
 ReferenceError: foo is not defined
     at Object.<anonymous> (/Users/ruic/code/fc/fc-agent/src/_lib/unhandler/index.js:8:1)
@@ -56,14 +56,15 @@ ReferenceError: foo is not defined
     at Function.Module.runMain (internal/modules/cjs/loader.js:1143:12)
     at internal/main/run_main_module.js:16:11
 \`\`\``,
-			labels: ['bug'],
 		};
 		await createIssue(issue, { user: 'foo', repo: 'bar', token: 'secret' });
 
 		expect(fetchSpy).toHaveBeenCalledTimes(2);
 		const [, request] = fetchSpy.mock.calls;
 		expect(request[0]).toBe('https://api.github.com/repos/foo/bar/issues');
-		expect(request[1].body).toStrictEqual(JSON.stringify(issue));
+
+		const expected = JSON.stringify(issue);
+		expect(request[1].body).toStrictEqual(expected);
 	});
 
 	it('lists issues', async () => {
