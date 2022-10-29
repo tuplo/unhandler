@@ -6,8 +6,10 @@ jobs:
   to_bitbucket:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: pixta-dev/repository-mirroring-action@v1
+      - uses: actions/checkout@main
+        with:
+          fetch-depth: "0"
+      - uses: ruicsh/backup-action
         with:
           target_repo_url: git@bitbucket.org:tuplo/unhandler.git
           ssh_private_key: ${{ secrets.BITBUCKET_SSH_PRIVATE_KEY }}
