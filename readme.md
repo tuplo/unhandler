@@ -35,14 +35,14 @@ import { unhandler } from '@tuplo/unhandler';
 
 ```ts
 unhandler({
-	appName: 'my-app-1',
-	providers: {
-		github: {
-			user: 'tuplo',
-			repo: 'unhandler',
-			token: 'secret-token-xxxxxxx',
-		},
-	},
+  appName: 'my-app-1',
+  providers: {
+    github: {
+      user: 'tuplo',
+      repo: 'unhandler',
+      token: 'secret-token-xxxxxxx',
+    },
+  },
 });
 
 throw new Error('buggy bug');
@@ -58,14 +58,14 @@ import { submitError } from '@tuplo/unhandler';
 const error = new Error('buggy bug');
 
 await submitError(error, {
-	appName: 'my-app-1',
-	providers: {
-		github: {
-			user: 'tuplo',
-			repo: 'unhandler',
-			token: 'secret-token-xxxxxxx',
-		},
-	},
+  appName: 'my-app-1',
+  providers: {
+    github: {
+      user: 'tuplo',
+      repo: 'unhandler',
+      token: 'secret-token-xxxxxxx',
+    },
+  },
 });
 
 // will create a GitHub issue with title "[my-app-1] buggy bug"
@@ -79,16 +79,16 @@ import { submitError } from '@tuplo/unhandler';
 const error = new Error('buggy bug');
 
 await submitError(error, {
-	appName: 'my-app-1',
-	onBeforeSubmitError: (error) => console.error(error),
-	onAfterSubmitError: (error) => console.error(error),
-	providers: {
-		github: {
-			user: 'tuplo',
-			repo: 'unhandler',
-			token: 'secret-token-xxxxxxx',
-		},
-	},
+  appName: 'my-app-1',
+  onBeforeSubmitError: (error) => console.error(error),
+  onAfterSubmitError: (error) => console.error(error),
+  providers: {
+    github: {
+      user: 'tuplo',
+      repo: 'unhandler',
+     token: 'secret-token-xxxxxxx',
+   },
+  },
 });
 
 // will output the error before and after submitting
