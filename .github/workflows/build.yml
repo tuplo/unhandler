@@ -33,7 +33,7 @@ jobs:
           fetch-depth: "0"
       - uses: actions/setup-node@main
         with:
-          node-version: 19
+          node-version: 18
       - uses: actions/cache@main
         with:
           path: node_modules
@@ -55,7 +55,7 @@ jobs:
           fetch-depth: "0"
       - uses: actions/setup-node@main
         with:
-          node-version: 19
+          node-version: 18
           registry-url: https://registry.npmjs.org/
       - uses: actions/cache@main
         with:

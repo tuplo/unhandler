@@ -13,6 +13,7 @@ interface IProviders {
 
 export interface IUnhandlerOptions {
 	appName?: string;
+	onAfterSubmitError?: (error: Error) => void | Promise<void>;
 	onBeforeSubmitError?: (error: Error) => void | Promise<void>;
 	providers: IProviders;
 }
@@ -45,13 +46,19 @@ export async function submitError(
 
 export function uncaughtHandlerFn(options: IUnhandlerOptions) {
 	return async (error: IUnhandlerError): Promise<Response | null> => {
-		const { onBeforeSubmitError } = options;
+		const { onBeforeSubmitError, onAfterSubmitError } = options;
 
 		if (onBeforeSubmitError) {
 			await Promise.resolve(onBeforeSubmitError(error));
 		}
 
-		return submitError(error, options);
+		const response = await submitError(error, options);
+
+		if (onAfterSubmitError) {
+			await Promise.resolve(onAfterSubmitError(error));
+		}
+
+		return response;
 	};
 }
 
