@@ -2,6 +2,7 @@ import type { Response } from '@tuplo/fetch';
 
 import * as github from './github';
 import type { IGitHubOptions } from './github';
+import { stringify } from './helpers/stringify';
 
 export interface IUnhandlerError extends Error {
 	body?: unknown;
@@ -34,11 +35,12 @@ export async function submitError(
 	const [title] = error.message?.split('\n') || ['Unknown error'];
 	const { labels = ['bug'] } = trackerOptions || {};
 
+	const body = `\`\`\`\n${stringify(error.body || error.stack)}\n\`\`\``;
 	return tracker.createIssue(
 		{
 			title: [appName && `[${appName}]`, title].join(' '),
 			labels,
-			body: `\`\`\`\n${error.body || error.stack}\n\`\`\``,
+			body,
 		},
 		trackerOptions
 	);
