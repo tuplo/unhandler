@@ -1,9 +1,9 @@
 /* eslint no-console:off */
-import { Agent } from 'https';
-import fetch from '@tuplo/fetch';
-import type { FetchOptions } from '@tuplo/fetch';
+import type { FetchOptions } from "@tuplo/fetch";
+import fetch from "@tuplo/fetch";
+import { Agent } from "https";
 
-interface IGithubIssue {
+export interface IGithubIssue {
 	id?: number;
 	title: string;
 	labels: string[];
@@ -21,7 +21,7 @@ export function buildUrl(template: string, githubOptions: IGitHubOptions) {
 	const { user, repo: repoName } = githubOptions;
 	const repo = !/\//.test(repoName) ? `${user}/${repoName}` : repoName;
 
-	return ['https://api.github.com', template.replace(/:repo/, repo)].join('');
+	return ["https://api.github.com", template.replace(/:repo/, repo)].join("");
 }
 
 async function client<T = unknown>(
@@ -32,12 +32,12 @@ async function client<T = unknown>(
 	const { user, token } = githubOptions;
 	const defaultOptions = {
 		agent: new Agent({
-			rejectUnauthorized: process.env.NODE_ENV !== 'test',
+			rejectUnauthorized: process.env.NODE_ENV !== "test",
 		}),
 		headers: {
-			Accept: 'application/vnd.github.v3+json',
+			Accept: "application/vnd.github.v3+json",
 			Authorization: `token ${token}`,
-			'User-Agent': user,
+			"User-Agent": user,
 		},
 	};
 
@@ -59,15 +59,15 @@ async function client<T = unknown>(
 			return res;
 		})
 		.catch((err) => {
-			console.error('[github]', err.message, githubUrl, options);
+			console.error("[github]", err.message, githubUrl, options);
 			return null;
 		});
 }
 
 export async function listIssues(githubOptions: IGitHubOptions) {
-	const url = '/repos/:repo/issues';
+	const url = "/repos/:repo/issues";
 
-	return client<IGithubIssue[]>(url, { method: 'GET' }, githubOptions).then(
+	return client<IGithubIssue[]>(url, { method: "GET" }, githubOptions).then(
 		(res) => res?.json() || []
 	);
 }
@@ -96,7 +96,7 @@ export async function createIssue(
 	);
 	if (existingIssue) return null;
 
-	const url = '/repos/:repo/issues';
+	const url = "/repos/:repo/issues";
 	const { title, labels, body } = issue;
 	const issueBody = {
 		title: title.slice(0, 64),
@@ -108,8 +108,8 @@ export async function createIssue(
 	return client(
 		url,
 		{
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(issueBody),
 		},
 		options

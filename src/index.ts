@@ -1,8 +1,8 @@
-import type { Response } from '@tuplo/fetch';
+import type { Response } from "@tuplo/fetch";
 
-import * as github from './github';
-import type { IGitHubOptions } from './github';
-import { stringify } from './helpers/stringify';
+import type { IGitHubOptions } from "./github";
+import * as github from "./github";
+import { stringify } from "./helpers/stringify";
 
 export interface IUnhandlerError extends Error {
 	body?: unknown;
@@ -26,19 +26,19 @@ export async function submitError(
 	const { appName, providers } = options;
 	let tracker;
 	let trackerOptions;
-	if ('github' in providers) {
+	if ("github" in providers) {
 		tracker = github;
 		trackerOptions = providers.github as IGitHubOptions;
 	}
 	if (!tracker || !trackerOptions) return null;
 
-	const [title] = error.message?.split('\n') || ['Unknown error'];
-	const { labels = ['bug'] } = trackerOptions || {};
+	const [title] = error.message?.split("\n") || ["Unknown error"];
+	const { labels = ["bug"] } = trackerOptions || {};
 
 	const body = `\`\`\`\n${stringify(error.body || error.stack)}\n\`\`\``;
 	return tracker.createIssue(
 		{
-			title: [appName && `[${appName}]`, title].join(' '),
+			title: [appName && `[${appName}]`, title].join(" "),
 			labels,
 			body,
 		},
@@ -66,8 +66,8 @@ export function uncaughtHandlerFn(options: IUnhandlerOptions) {
 
 export function unhandler(options: IUnhandlerOptions) {
 	const uncaughtHandler = uncaughtHandlerFn(options);
-	process.on('uncaughtException', uncaughtHandler);
-	process.on('unhandledRejection', (reason) => {
+	process.on("uncaughtException", uncaughtHandler);
+	process.on("unhandledRejection", (reason) => {
 		throw reason;
 	});
 }
