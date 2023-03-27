@@ -11,21 +11,21 @@
 		"github issues"
 	],
 	"files": [
-		"dist/index.cjs.js",
-		"dist/index.esm.js",
+		"dist/index.cjs",
+		"dist/index.mjs",
 		"dist/index.d.ts",
 		"dist/github.d.ts"
 	],
-	"main": "./dist/index.cjs.js",
-	"module": "./dist/index.esm.js",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.mjs",
 	"exports": {
 		".": [
 			{
-				"import": "./dist/index.esm.js",
-				"require": "./dist/index.cjs.js",
-				"default": "./dist/index.esm.js"
+				"import": "./dist/index.mjs",
+				"require": "./dist/index.cjs",
+				"default": "./dist/index.mjs"
 			},
-			"./dist/index.esm.js"
+			"./dist/index.mjs"
 		]
 	},
 	"types": "dist/index.d.ts",
@@ -37,19 +37,19 @@
 		"dev": "tsx sh/dev.ts",
 		"format": "prettier --write src sh",
 		"lint:ts": "tsc --noEmit",
-		"lint": "eslint src --ext ts",
+		"lint": "eslint src",
 		"coverage": "tsx sh/coverage.ts",
-		"test:ci": "jest --ci",
-		"test": "jest --watch"
+		"test:ci": "vitest run",
+		"test": "vitest --watch"
 	},
 	"dependencies": {
 		"@tuplo/fetch": "1.9.3"
 	},
 	"devDependencies": {
-		"@types/jest": "29.2.5",
 		"@types/node": "18.11.18",
 		"@typescript-eslint/eslint-plugin": "5.48.0",
 		"@typescript-eslint/parser": "5.48.0",
+		"@vitest/coverage-c8": "0.29.7",
 		"create-cert": "1.0.6",
 		"esbuild": "0.16.15",
 		"eslint": "8.31.0",
@@ -57,12 +57,11 @@
 		"eslint-config-prettier": "8.6.0",
 		"eslint-plugin-import": "2.26.0",
 		"eslint-plugin-jest": "27.2.1",
-		"jest": "29.3.1",
 		"nyc": "15.1.0",
 		"prettier": "2.8.2",
-		"ts-jest": "29.0.3",
 		"tsx": "3.12.1",
 		"typescript": "4.9.4",
+		"vitest": "0.29.7",
 		"zx": "7.1.1"
 	}
 }

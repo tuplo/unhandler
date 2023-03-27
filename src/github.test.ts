@@ -1,14 +1,14 @@
 import type { FetchOptions } from "@tuplo/fetch";
+import { vi } from "vitest";
 
 import { buildUrl, createIssue, findIssue, listIssues } from "./github";
 import githubIssuesList from "./__data__/github-list-issues.json";
 
-const fetchSpy = jest.fn().mockResolvedValue(undefined);
-jest.mock<typeof import("@tuplo/fetch")>(
-	"@tuplo/fetch",
-	// @ts-expect-error foobar
-	() => (url: string, options?: Partial<FetchOptions>) => fetchSpy(url, options)
-);
+const fetchSpy = vi.fn().mockResolvedValue(undefined);
+vi.mock("@tuplo/fetch", () => ({
+	default: (url: string, options?: Partial<FetchOptions>) =>
+		fetchSpy(url, options),
+}));
 
 describe("unhandler", () => {
 	afterEach(() => {
@@ -141,7 +141,7 @@ ReferenceError: foo is not defined
 	});
 
 	it("logs instead of creating an issue, when something wrong with request", async () => {
-		const consoleErrorSpy = jest
+		const consoleErrorSpy = vi
 			.spyOn(console, "error")
 			.mockImplementation(() => null);
 		fetchSpy.mockResolvedValue({

@@ -1,9 +1,11 @@
+import { vi } from "vitest";
+
 import type { IGithubIssue, IGitHubOptions } from "./github";
 import { submitError, uncaughtHandlerFn } from "./index";
 
-const githubCreateIssueSpy = jest.fn().mockResolvedValue(null);
-jest.mock<typeof import("./github")>("./github", () => ({
-	...jest.requireActual("./github"),
+const githubCreateIssueSpy = vi.fn().mockResolvedValue(null);
+vi.mock("./github", () => ({
+	...vi.importActual("./github"),
 	createIssue: (issue: IGithubIssue, options: IGitHubOptions) =>
 		githubCreateIssueSpy(issue, options),
 }));
@@ -99,8 +101,8 @@ describe("unhandler", () => {
 	});
 
 	it.each([
-		["regular function", jest.fn()],
-		["async function", jest.fn().mockResolvedValue(undefined)],
+		["regular function", vi.fn()],
+		["async function", vi.fn().mockResolvedValue(undefined)],
 	])("calls onBeforeSubmitError if one is provided: %s", async (_, spy) => {
 		const onBeforeSubmitErrorSpy = spy;
 		const error = new Error("foo");
@@ -118,8 +120,8 @@ describe("unhandler", () => {
 	});
 
 	it.each([
-		["regular function", jest.fn()],
-		["async function", jest.fn().mockResolvedValue(undefined)],
+		["regular function", vi.fn()],
+		["async function", vi.fn().mockResolvedValue(undefined)],
 	])("calls onAfterSubmitError if one is provided: %s", async (_, spy) => {
 		const onAfterSubmitError = spy;
 		const error = new Error("foo");
