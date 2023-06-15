@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 19.x]
+        node-version: [16.x, 18.x, 20.x]
     steps:
       - uses: actions/checkout@main
         with:
@@ -21,6 +21,7 @@ jobs:
       - run: |
           yarn install --frozen-lockfile
           yarn lint
+          yarn lint:ts
           yarn test:ci
 
   test-coverage:

@@ -9,10 +9,9 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "outDir": "./dist",
-    "target": "es6",
     "strict": true,
     "types": ["vitest/globals"]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "sh/**/*"],
   "exclude": ["node_modules/**/*"]
 }
