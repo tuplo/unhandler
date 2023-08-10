@@ -1,7 +1,7 @@
 /* eslint no-console:off */
-import type { FetchOptions } from "@tuplo/fetch";
-import fetch from "@tuplo/fetch";
-import { Agent } from "https";
+import { Agent } from "node:https";
+
+import fetch, { type FetchOptions } from "@tuplo/fetch";
 
 export interface IGithubIssue {
 	id?: number;
