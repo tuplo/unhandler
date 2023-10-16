@@ -17,6 +17,7 @@ export interface IUnhandlerOptions {
 	onAfterSubmitError?: (error: Error) => void | Promise<void>;
 	onBeforeSubmitError?: (error: Error) => void | Promise<void>;
 	providers: IProviders;
+	shouldSubmitError?: boolean;
 }
 
 export async function submitError(
@@ -48,10 +49,18 @@ export async function submitError(
 
 export function uncaughtHandlerFn(options: IUnhandlerOptions) {
 	return async (error: IUnhandlerError): Promise<Response | null> => {
-		const { onBeforeSubmitError, onAfterSubmitError } = options;
+		const {
+			onBeforeSubmitError,
+			onAfterSubmitError,
+			shouldSubmitError = true,
+		} = options;
 
 		if (onBeforeSubmitError) {
 			await Promise.resolve(onBeforeSubmitError(error));
+		}
+
+		if (!shouldSubmitError) {
+			return null;
 		}
 
 		const response = await submitError(error, options);

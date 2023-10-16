@@ -114,9 +114,22 @@ The name of the application triggering the error.
 
 An optional function to be called just before submitting the error.
 
+### onAfterSubmitError
+
+> `(error) => Promise<void>` | optional
+
+An optional function to be called just after submitting the error.
+
 ### providers
 
 > `Provider[]`
+
+### shouldSubmitError
+
+> `boolean` | optional
+
+Decides if the error should actually be submitted. Normally coupled with `onBeforeSubmitError` to do something else with the `Error` but not submit it. If `false` it doesn't submit the error and doesn't call `onAfterSubmitError`. Defaults to `true`.
+
 
 ##### GitHub
 

@@ -10,6 +10,13 @@ vi.mock("./github", () => ({
 		githubCreateIssueSpy(issue, options),
 }));
 
+const defaultOptions = {
+	appName: "app-name",
+	providers: {
+		github: { user: "foo", repo: "foo/bar", token: "secret-token" },
+	},
+};
+
 describe("unhandler", () => {
 	afterEach(() => {
 		githubCreateIssueSpy.mockClear();
@@ -21,12 +28,7 @@ describe("unhandler", () => {
 
 	it("submits an error", async () => {
 		const error = new Error("foo");
-		await submitError(error, {
-			appName: "app-name",
-			providers: {
-				github: { user: "foo", repo: "foo/bar", token: "secret-token" },
-			},
-		});
+		await submitError(error, defaultOptions);
 
 		const expected = {
 			title: "[app-name] foo",
@@ -39,12 +41,7 @@ describe("unhandler", () => {
 
 	it("makes sure error doesn't have break lines on title", async () => {
 		const error = new Error(["line1", "line2"].join("\n"));
-		await submitError(error, {
-			appName: "app-name",
-			providers: {
-				github: { user: "foo", repo: "foo/bar", token: "secret-token" },
-			},
-		});
+		await submitError(error, defaultOptions);
 
 		const expected = {
 			title: "[app-name] line1",
@@ -57,12 +54,7 @@ describe("unhandler", () => {
 
 	it("handles an exception - github", () => {
 		const error = new Error("foo");
-		const uncaughtHandler = uncaughtHandlerFn({
-			appName: "app-name",
-			providers: {
-				github: { user: "foo", repo: "foo/bar", token: "secret" },
-			},
-		});
+		const uncaughtHandler = uncaughtHandlerFn(defaultOptions);
 		uncaughtHandler(error);
 
 		expect(githubCreateIssueSpy).toHaveBeenCalledTimes(1);
@@ -83,12 +75,7 @@ describe("unhandler", () => {
 			}
 		}
 		const error = new FooError("foo", "bar baz buz");
-		const uncaughtHandler = uncaughtHandlerFn({
-			appName: "app-name",
-			providers: {
-				github: { user: "foo", repo: "foo/bar", token: "secret" },
-			},
-		});
+		const uncaughtHandler = uncaughtHandlerFn(defaultOptions);
 		uncaughtHandler(error);
 
 		expect(githubCreateIssueSpy).toHaveBeenCalledTimes(1);
@@ -107,10 +94,7 @@ describe("unhandler", () => {
 		const onBeforeSubmitErrorSpy = spy;
 		const error = new Error("foo");
 		const uncaughtHandler = uncaughtHandlerFn({
-			appName: "app-name",
-			providers: {
-				github: { user: "foo", repo: "foo/bar", token: "secret" },
-			},
+			...defaultOptions,
 			onBeforeSubmitError: onBeforeSubmitErrorSpy,
 		});
 		await uncaughtHandler(error);
@@ -126,15 +110,51 @@ describe("unhandler", () => {
 		const onAfterSubmitError = spy;
 		const error = new Error("foo");
 		const uncaughtHandler = uncaughtHandlerFn({
-			appName: "app-name",
-			providers: {
-				github: { user: "foo", repo: "foo/bar", token: "secret" },
-			},
+			...defaultOptions,
 			onAfterSubmitError,
 		});
 		await uncaughtHandler(error);
 
 		expect(onAfterSubmitError).toHaveBeenCalledTimes(1);
 		expect(onAfterSubmitError).toHaveBeenCalledWith(error);
+	});
+
+	describe("shouldSubmitError", () => {
+		it.each([undefined, true])(
+			"submits an error if shouldSubmitError is true: %s",
+			async (shouldSubmitError) => {
+				const error = new Error("foo");
+				const onBeforeSubmitErrorSpy = vi.fn();
+				const onAfterSubmitErrorSpy = vi.fn();
+				const uncaughtHandler = uncaughtHandlerFn({
+					...defaultOptions,
+					onBeforeSubmitError: onBeforeSubmitErrorSpy,
+					onAfterSubmitError: onAfterSubmitErrorSpy,
+					shouldSubmitError,
+				});
+				await uncaughtHandler(error);
+
+				expect(onBeforeSubmitErrorSpy).toHaveBeenCalledTimes(1);
+				expect(githubCreateIssueSpy).toHaveBeenCalledTimes(1);
+				expect(onAfterSubmitErrorSpy).toHaveBeenCalledTimes(1);
+			}
+		);
+
+		it("does not submit an error if shouldSubmitError is false", async () => {
+			const error = new Error("foo");
+			const onBeforeSubmitErrorSpy = vi.fn();
+			const onAfterSubmitErrorSpy = vi.fn();
+			const uncaughtHandler = uncaughtHandlerFn({
+				...defaultOptions,
+				onBeforeSubmitError: onBeforeSubmitErrorSpy,
+				onAfterSubmitError: onAfterSubmitErrorSpy,
+				shouldSubmitError: false,
+			});
+			await uncaughtHandler(error);
+
+			expect(onBeforeSubmitErrorSpy).toHaveBeenCalledTimes(1);
+			expect(githubCreateIssueSpy).not.toHaveBeenCalled();
+			expect(onAfterSubmitErrorSpy).not.toHaveBeenCalled();
+		});
 	});
 });
