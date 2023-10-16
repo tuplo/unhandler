@@ -1,6 +1,6 @@
 import { vi } from "vitest";
 
-import type { IGithubIssue, IGitHubOptions } from "./github";
+import { type IGithubIssue, type IGitHubOptions } from "./github";
 import { submitError, uncaughtHandlerFn } from "./index";
 
 const githubCreateIssueSpy = vi.fn().mockResolvedValue(null);

@@ -1,7 +1,7 @@
-import type { Response } from "@tuplo/fetch";
+import { type Response } from "@tuplo/fetch";
 
-import type { IGitHubOptions } from "./github";
 import * as github from "./github";
+import { type IGitHubOptions } from "./github";
 import { stringify } from "./helpers/stringify";
 
 export interface IUnhandlerError extends Error {

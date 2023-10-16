@@ -1,8 +1,8 @@
-import type { FetchOptions } from "@tuplo/fetch";
+import { type FetchOptions } from "@tuplo/fetch";
 import { vi } from "vitest";
 
-import { buildUrl, createIssue, findIssue, listIssues } from "./github";
 import githubIssuesList from "./__data__/github-list-issues.json";
+import { buildUrl, createIssue, findIssue, listIssues } from "./github";
 
 const fetchSpy = vi.fn().mockResolvedValue(undefined);
 vi.mock("@tuplo/fetch", () => ({
