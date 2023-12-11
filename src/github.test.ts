@@ -1,5 +1,4 @@
 import { type FetchOptions } from "@tuplo/fetch";
-import { vi } from "vitest";
 
 import githubIssuesList from "./__data__/github-list-issues.json";
 import { buildUrl, createIssue, findIssue, listIssues } from "./github";

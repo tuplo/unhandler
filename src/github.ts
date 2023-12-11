@@ -3,25 +3,28 @@ import { Agent } from "node:https";
 
 import fetch, { type FetchOptions } from "@tuplo/fetch";
 
-export interface IGithubIssue {
+export type IGithubIssue = {
 	id?: number;
 	title: string;
 	labels: string[];
 	body: string;
-}
+};
 
-export interface IGitHubOptions {
+export type IGitHubOptions = {
 	user: string;
 	repo: string;
 	token: string;
 	labels?: string[];
-}
+};
 
 export function buildUrl(template: string, githubOptions: IGitHubOptions) {
 	const { user, repo: repoName } = githubOptions;
 	const repo = !/\//.test(repoName) ? `${user}/${repoName}` : repoName;
 
-	return ["https://api.github.com", template.replace(/:repo/, repo)].join("");
+	const uri = new URL("https://api.github.com");
+	uri.pathname = template.replace(/:repo/, repo);
+
+	return uri.href;
 }
 
 async function client<T = unknown>(
@@ -72,9 +75,9 @@ export async function listIssues(githubOptions: IGitHubOptions) {
 	);
 }
 
-interface IFinderFn {
+type IFinderFn = {
 	(issue: IGithubIssue): boolean;
-}
+};
 
 export async function findIssue(
 	finder: IFinderFn,

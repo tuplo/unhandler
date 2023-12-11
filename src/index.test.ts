@@ -1,5 +1,3 @@
-import { vi } from "vitest";
-
 import { type IGithubIssue, type IGitHubOptions } from "./github";
 import { submitError, uncaughtHandlerFn } from "./index";
 

@@ -4,21 +4,21 @@ import * as github from "./github";
 import { type IGitHubOptions } from "./github";
 import { stringify } from "./helpers/stringify";
 
-export interface IUnhandlerError extends Error {
+export type IUnhandlerError = Error & {
 	body?: unknown;
-}
+};
 
-interface IProviders {
+type IProviders = {
 	github?: IGitHubOptions;
-}
+};
 
-export interface IUnhandlerOptions {
+export type IUnhandlerOptions = {
 	appName?: string;
 	onAfterSubmitError?: (error: Error) => void | Promise<void>;
 	onBeforeSubmitError?: (error: Error) => void | Promise<void>;
 	providers: IProviders;
 	shouldSubmitError?: boolean;
-}
+};
 
 export async function submitError(
 	error: IUnhandlerError,
