@@ -9,6 +9,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "outDir": "./dist",
+    "skipLibCheck": true,
     "strict": true,
     "types": ["vitest/globals"]
   },
