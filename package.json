@@ -11,27 +11,25 @@
 		"github issues"
 	],
 	"files": [
-		"dist/index.cjs",
-		"dist/index.mjs",
+		"dist/index.js",
 		"dist/index.d.ts",
 		"dist/github.d.ts"
 	],
-	"main": "./dist/index.cjs",
-	"module": "./dist/index.mjs",
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
 	"exports": {
 		".": [
 			{
 				"import": {
 					"types": "./dist/index.d.ts",
-					"default": "./dist/index.mjs"
+					"default": "./dist/index.js"
 				},
 				"require": {
 					"types": "./dist/index.d.ts",
-					"default": "./dist/index.cjs"
-				},
-				"default": "./dist/index.mjs"
+					"default": "./dist/index.js"
+				}
 			},
-			"./dist/index.mjs"
+			"./dist/index.js"
 		]
 	},
 	"types": "dist/index.d.ts",
@@ -53,15 +51,14 @@
 		"@tuplo/shell": "1.2.2",
 		"@types/node": "22.5.0",
 		"@vitest/coverage-v8": "2.0.5",
-		"create-cert": "1.0.6",
 		"esbuild": "0.23.1",
-		"eslint": "9.9.1",
 		"eslint-config-prettier": "9.1.0",
 		"eslint-plugin-unicorn": "55.0.0",
 		"eslint-plugin-vitest": "0.5.4",
 		"npm-check-updates": "17.1.0",
 		"nyc": "17.0.0",
 		"prettier": "3.3.3",
+		"tsup": "8.2.4",
 		"tsx": "4.17.0",
 		"typescript": "5.5.4",
 		"typescript-eslint": "8.2.0",
