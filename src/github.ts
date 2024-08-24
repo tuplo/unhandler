@@ -19,7 +19,7 @@ export type IGitHubOptions = {
 
 export function buildUrl(template: string, githubOptions: IGitHubOptions) {
 	const { user, repo: repoName } = githubOptions;
-	const repo = !/\//.test(repoName) ? `${user}/${repoName}` : repoName;
+	const repo = /\//.test(repoName) ? repoName : `${user}/${repoName}`;
 
 	const uri = new URL("https://api.github.com");
 	uri.pathname = template.replace(/:repo/, repo);
@@ -61,9 +61,9 @@ async function client<T = unknown>(
 			if (!res.ok) throw new Error(res.statusText);
 			return res;
 		})
-		.catch((err) => {
-			console.error("[github]", err.message, githubUrl, options);
-			return null;
+		.catch((error) => {
+			console.error("[github]", error.message, githubUrl, options);
+			return;
 		});
 }
 
@@ -82,11 +82,13 @@ type IFinderFn = {
 export async function findIssue(
 	finder: IFinderFn,
 	options: IGitHubOptions
-): Promise<IGithubIssue | null> {
+): Promise<IGithubIssue | undefined> {
 	const issues = await listIssues(options);
-	if (issues === null) return null;
+	if (issues === null) {
+		return;
+	}
 
-	return issues.find(finder) || null;
+	return issues.find((issue) => finder(issue)) || undefined;
 }
 
 export async function createIssue(
@@ -97,7 +99,9 @@ export async function createIssue(
 		(i) => i.title === issue.title,
 		options
 	);
-	if (existingIssue) return null;
+	if (existingIssue) {
+		return;
+	}
 
 	const url = "/repos/:repo/issues";
 	const { title, labels, body } = issue;

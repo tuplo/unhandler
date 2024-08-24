@@ -6,7 +6,6 @@ describe("stringify", () => {
 		["string", "foobar", "foobar"],
 		["number", 2, "2"],
 		["undefined", undefined, "undefined"],
-		["null", null, "undefined"],
 		["array", [1, 2, 3], "1\n2\n3"],
 		[
 			"objects array",

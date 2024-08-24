@@ -1,7 +1,8 @@
-import { type IGithubIssue, type IGitHubOptions } from "./github";
+/* eslint-disable unicorn/no-useless-undefined */
+import type { IGithubIssue, IGitHubOptions } from "./github";
 import { submitError, uncaughtHandlerFn } from "./index";
 
-const githubCreateIssueSpy = vi.fn().mockResolvedValue(null);
+const githubCreateIssueSpy = vi.fn().mockResolvedValue(undefined);
 vi.mock("./github", () => ({
 	...vi.importActual("./github"),
 	createIssue: (issue: IGithubIssue, options: IGitHubOptions) =>

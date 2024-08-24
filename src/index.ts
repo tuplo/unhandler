@@ -31,7 +31,9 @@ export async function submitError(
 		tracker = github;
 		trackerOptions = providers.github as IGitHubOptions;
 	}
-	if (!tracker || !trackerOptions) return null;
+	if (!tracker || !trackerOptions) {
+		return;
+	}
 
 	const [title] = error.message?.split("\n") || ["Unknown error"];
 	const { labels = ["bug"] } = trackerOptions || {};
@@ -48,7 +50,7 @@ export async function submitError(
 }
 
 export function uncaughtHandlerFn(options: IUnhandlerOptions) {
-	return async (error: IUnhandlerError): Promise<Response | null> => {
+	return async (error: IUnhandlerError): Promise<Response | void> => {
 		const {
 			onBeforeSubmitError,
 			onAfterSubmitError,
@@ -60,7 +62,7 @@ export function uncaughtHandlerFn(options: IUnhandlerOptions) {
 		}
 
 		if (!shouldSubmitError) {
-			return null;
+			return;
 		}
 
 		const response = await submitError(error, options);

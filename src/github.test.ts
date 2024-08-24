@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-useless-undefined */
 import { type FetchOptions } from "@tuplo/fetch";
 
 import githubIssuesList from "./__data__/github-list-issues.json";
@@ -136,13 +137,13 @@ ReferenceError: foo is not defined
 			repo: "bar",
 			token: "secret",
 		});
-		expect(result).toBeNull();
+		expect(result).toBeUndefined();
 	});
 
 	it("logs instead of creating an issue, when something wrong with request", async () => {
 		const consoleErrorSpy = vi
 			.spyOn(console, "error")
-			.mockImplementation(() => null);
+			.mockImplementation(() => undefined);
 		fetchSpy.mockResolvedValue({
 			status: 400,
 			ok: false,

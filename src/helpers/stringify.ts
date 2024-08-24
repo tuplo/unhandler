@@ -4,7 +4,7 @@ export function stringify(obj: unknown): string {
 	}
 
 	if (Array.isArray(obj)) {
-		return obj.map(stringify).join("\n");
+		return obj.map((item) => stringify(item)).join("\n");
 	}
 
 	return obj?.toString() || "undefined";
