@@ -1,8 +1,6 @@
 /* eslint no-console:off */
 import { Agent } from "node:https";
 
-import fetch, { type FetchOptions } from "@tuplo/fetch";
-
 export type IGithubIssue = {
 	id?: number;
 	title: string;
@@ -27,9 +25,9 @@ export function buildUrl(template: string, githubOptions: IGitHubOptions) {
 	return uri.href;
 }
 
-async function client<T = unknown>(
+async function request(
 	url: string,
-	options: Partial<FetchOptions>,
+	options: Partial<RequestInit>,
 	githubOptions: IGitHubOptions
 ) {
 	const { user, token } = githubOptions;
@@ -56,9 +54,12 @@ async function client<T = unknown>(
 
 	const githubUrl = buildUrl(url, githubOptions);
 
-	return fetch<T>(githubUrl, opts)
+	return fetch(githubUrl, opts)
 		.then(async (res) => {
-			if (!res.ok) throw new Error(res.statusText);
+			if (!res.ok) {
+				throw new Error(res.statusText);
+			}
+
 			return res;
 		})
 		.catch((error) => {
@@ -70,9 +71,14 @@ async function client<T = unknown>(
 export async function listIssues(githubOptions: IGitHubOptions) {
 	const url = "/repos/:repo/issues";
 
-	return client<IGithubIssue[]>(url, { method: "GET" }, githubOptions).then(
-		(res) => res?.json() || []
-	);
+	const response = await request(url, { method: "GET" }, githubOptions);
+	if (!response) {
+		return [];
+	}
+
+	const issues = await response.json();
+
+	return issues as IGithubIssue[];
 }
 
 type IFinderFn = {
@@ -84,7 +90,7 @@ export async function findIssue(
 	options: IGitHubOptions
 ): Promise<IGithubIssue | undefined> {
 	const issues = await listIssues(options);
-	if (issues === null) {
+	if (!issues) {
 		return;
 	}
 
@@ -112,7 +118,7 @@ export async function createIssue(
 		body: body.slice(0, 65_536),
 	};
 
-	return client(
+	return request(
 		url,
 		{
 			method: "POST",

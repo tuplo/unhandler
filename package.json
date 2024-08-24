@@ -49,9 +49,6 @@
 		"test": "vitest --watch",
 		"upgrade": "npm-check-updates -u && npm install"
 	},
-	"dependencies": {
-		"@tuplo/fetch": "1.10.0"
-	},
 	"devDependencies": {
 		"@tuplo/shell": "1.2.2",
 		"@types/node": "22.5.0",

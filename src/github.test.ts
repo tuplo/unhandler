@@ -1,14 +1,10 @@
 /* eslint-disable unicorn/no-useless-undefined */
-import { type FetchOptions } from "@tuplo/fetch";
 
 import githubIssuesList from "./__data__/github-list-issues.json";
 import { buildUrl, createIssue, findIssue, listIssues } from "./github";
 
 const fetchSpy = vi.fn().mockResolvedValue(undefined);
-vi.mock("@tuplo/fetch", () => ({
-	default: (url: string, options?: Partial<FetchOptions>) =>
-		fetchSpy(url, options),
-}));
+global.fetch = fetchSpy;
 
 describe("unhandler", () => {
 	afterEach(() => {

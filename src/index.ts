@@ -1,5 +1,3 @@
-import { type Response } from "@tuplo/fetch";
-
 import * as github from "./github";
 import { type IGitHubOptions } from "./github";
 import { stringify } from "./helpers/stringify";
