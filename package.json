@@ -48,20 +48,21 @@
 		"upgrade": "npm-check-updates -u && npm install"
 	},
 	"devDependencies": {
-		"@tuplo/shell": "1.2.2",
-		"@types/node": "22.5.0",
-		"@vitest/coverage-v8": "2.0.5",
-		"esbuild": "0.23.1",
-		"eslint-config-prettier": "9.1.0",
-		"eslint-plugin-unicorn": "55.0.0",
-		"eslint-plugin-vitest": "0.5.4",
-		"npm-check-updates": "17.1.0",
-		"nyc": "17.0.0",
-		"prettier": "3.3.3",
-		"tsup": "8.2.4",
-		"tsx": "4.17.0",
-		"typescript": "5.5.4",
-		"typescript-eslint": "8.2.0",
-		"vitest": "2.0.5"
+		"@tuplo/shell": "1.2.3",
+		"@types/node": "22.13.4",
+		"@vitest/coverage-v8": "3.0.6",
+		"@vitest/eslint-plugin": "1.1.32-beta.1",
+		"esbuild": "0.25.0",
+		"eslint": "9.20.1",
+		"eslint-config-prettier": "10.0.1",
+		"eslint-plugin-unicorn": "57.0.0",
+		"npm-check-updates": "17.1.14",
+		"nyc": "17.1.0",
+		"prettier": "3.5.1",
+		"tsup": "2.0.3",
+		"tsx": "4.19.3",
+		"typescript": "5.7.3",
+		"typescript-eslint": "8.24.1",
+		"vitest": "3.0.6"
 	}
 }

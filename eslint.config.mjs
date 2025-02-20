@@ -1,7 +1,7 @@
 import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
 import unicorn from "eslint-plugin-unicorn";
-import vitest from "eslint-plugin-vitest";
+import vitest from "@vitest/eslint-plugin";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
@@ -13,7 +13,7 @@ export default [
 	},
 	js.configs.recommended,
 	...tseslint.configs.recommended,
-	unicorn.configs["flat/recommended"],
+	unicorn.configs["recommended"],
 	prettier,
 	{
 		files: ["*.test.ts"],
@@ -33,6 +33,7 @@ export default [
 			"unicorn/prefer-string-raw": "off",
 			"unicorn/prefer-top-level-await": "off",
 			"unicorn/prevent-abbreviations": "off",
+			"unicorn/prefer-global-this": "off",
 		},
 	},
 	{

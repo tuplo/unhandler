@@ -63,7 +63,7 @@ async function request(
 			return res;
 		})
 		.catch((error) => {
-			console.error("[github]", error.message, githubUrl, options);
+			console.error("[github]", githubUrl, options, error);
 			return;
 		});
 }
